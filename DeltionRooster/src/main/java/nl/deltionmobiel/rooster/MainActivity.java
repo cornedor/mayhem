@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,10 +32,22 @@ public class MainActivity extends Activity
      */
     private CharSequence mTitle;
 
+    private String departJSON;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONparser parser = new JSONparser();
+                departJSON = parser.getJSONFromUrl("http://koenhendriks.com/rooster/oud/afdelingen.json");
+            }
+        }).start();
+
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -51,53 +64,26 @@ public class MainActivity extends Activity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, PlaceholderFragment.newInstance(position + 4))
                 .commit();
     }
 
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.rooster);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.select_week);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.select_class);
                 break;
             case 4:
-                mTitle = getString(R.string.title_section4);
+                mTitle = getString(R.string.today);
                 break;
             case 5:
-                mTitle = getString(R.string.title_section5);
-                break;
-            case 6:
-                mTitle = getString(R.string.title_section6);
-                break;
-            case 7:
-                mTitle = getString(R.string.title_section7);
-                break;
-            case 8:
-                mTitle = getString(R.string.title_section8);
-                break;
-            case 9:
-                mTitle = getString(R.string.title_section9);
-                break;
-            case 10:
-                mTitle = getString(R.string.title_section10);
-                break;
-            case 11:
-                mTitle = getString(R.string.title_section11);
-                break;
-            case 12:
-                mTitle = getString(R.string.title_section12);
-                break;
-            case 13:
-                mTitle = getString(R.string.title_section13);
-                break;
-            case 14:
-                mTitle = getString(R.string.title_section14);
+                mTitle = getString(R.string.action_settings);
                 break;
         }
     }

@@ -39,6 +39,9 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         * Get json for departments
+         */
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -64,25 +67,25 @@ public class MainActivity extends Activity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 4))
+                .replace(R.id.container, PlaceholderFragment.newInstance(position))
                 .commit();
     }
 
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
+            case 0:
                 mTitle = getString(R.string.rooster);
                 break;
-            case 2:
+            case 1:
                 mTitle = getString(R.string.select_week);
                 break;
-            case 3:
+            case 2:
                 mTitle = getString(R.string.select_class);
                 break;
-            case 4:
+            case 3:
                 mTitle = getString(R.string.today);
                 break;
-            case 5:
+            case 4:
                 mTitle = getString(R.string.action_settings);
                 break;
         }

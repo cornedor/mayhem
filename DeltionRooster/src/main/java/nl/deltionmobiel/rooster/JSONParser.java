@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
  *
  * Json parsing class
  */
-public class JSONparser {
+public class JSONParser {
 
     /**
      *

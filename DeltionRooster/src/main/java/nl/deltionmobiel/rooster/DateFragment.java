@@ -19,8 +19,6 @@ import android.view.ViewGroup;
  *
  */
 public class DateFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private OnFragmentInteractionListener mListener;
 
@@ -30,11 +28,8 @@ public class DateFragment extends Fragment {
      *
      * @return A new instance of fragment DateFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static DateFragment newInstance() {
         DateFragment fragment = new DateFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
     public DateFragment() {

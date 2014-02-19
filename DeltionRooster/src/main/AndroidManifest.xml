@@ -28,6 +28,22 @@
             android:name="nl.deltionmobiel.rooster.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name="nl.deltionmobiel.rooster.AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName="nl.deltionmobiel.rooster.SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="SettingsActivity" />
+        </activity>
+        <activity
+            android:name="nl.deltionmobiel.rooster.DisclaimerActivity"
+            android:label="@string/title_activity_disclaimer"
+            android:parentActivityName="nl.deltionmobiel.rooster.SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="SettingsActivity" />
+        </activity>
     </application>
 
 </manifest>

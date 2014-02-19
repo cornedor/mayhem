@@ -10,6 +10,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Instellingen</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_text">Deze app is ontwikkeld door:
+        Koen Hendriks en Corne Dorrenstijn</string>
+    <string name="title_activity_about">Over deze app</string>
+    <string name="hello_blank_fragment">Blank fragment enzo jwz</string>
+    <string name="disclaimer_long">Deze disclaimer is van toepassing over de gehele content die te vinden is op mobieldeltion.nl. Door de website/dienst mobieldeltion.nl te gebruiken stemt u in met deze disclaimer. De content is door Koen Hendriks met de grootst mogelijke zorg samengesteld, doch, Koen Hendriks aanvaardt geen aansprakelijkheid ten aanzien van mogelijke onjuistheden van het getoonde. De eigenaar is niet verantwoordelijk voor content op de aan deze website gekoppelde bestanden en/ of websites waarnaar wordt verwezen. Ongeautoriseerd of oneigenlijk gebruik van de content of delen daarvan maken inbreuk op intellectuele rechten. Toestemming tot het gebruik van de getoonde content of delen daarvan op publiekelijk toegankelijke plaatsen dient schriftelijk aan ons te worden verzocht.
+    Mobieldeltion.nl staat compleet los van Deltion College en is als hobby project opgestart door Koen Hendriks. Mocht u vragen of opmerkingen hebben over de site dan kunt u deze kwijt op app@mobieldeltion.nl</string>
+    <string name="title_activity_disclaimer">Juridische Informatie</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="disclaimer_title">Disclaimer</string>
 
 </resources>

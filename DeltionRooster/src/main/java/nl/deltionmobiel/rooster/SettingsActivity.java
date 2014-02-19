@@ -2,6 +2,7 @@ package nl.deltionmobiel.rooster;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -64,12 +65,31 @@ public class SettingsActivity extends PreferenceActivity{
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.pref_general);
         Preference about = (Preference) findPreference("about");
+        Preference license = (Preference) findPreference("license");
         assert about != null;
+        assert license != null;
         about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
 
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+
+                Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivity(aboutIntent);
+
+                return false;
+            }
+        });
+
+        license.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
+
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+
+                Intent licenseIntent = new Intent(getApplicationContext(), DisclaimerActivity.class);
+                startActivity(licenseIntent);
+
                 return false;
             }
         });

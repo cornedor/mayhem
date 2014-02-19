@@ -7,4 +7,5 @@
     <string name="pref_header_general">Algemeen</string>
 
     <string name="pref_default_class">Standaard Klas</string>
+    <string name="pref_about">About</string>
 </resources>

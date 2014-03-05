@@ -1,0 +1,12 @@
+<resources>
+        <string name="title_activity_settings">Instellingen</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Algemeen</string>
+
+    <string name="pref_default_class">Standaard Klas</string>
+    <string name="pref_about">About</string>
+    <string name="pref_license">Juridische informatie</string>
+</resources>

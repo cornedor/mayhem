@@ -3,6 +3,7 @@ package nl.deltionmobiel.rooster;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -74,6 +75,11 @@ public class MainActivity extends Activity
                     .replace(R.id.container, DateFragment.newInstance())
                     .commit();
                 break;
+            case 4:
+                Intent myIntent = new Intent(this, SettingsActivity.class);
+                startActivity(myIntent);
+                break;
+
         }
     }
 

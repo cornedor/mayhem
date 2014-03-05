@@ -58,9 +58,9 @@ public class ScheduleFragment extends Fragment {
         };
 
         LinearLayout view = (LinearLayout) v.findViewById(R.id.schedule_container);
-        view.removeAllViews();
         for(int i = 0; i < days.length; i++) {
             Card card = new Card(v.getContext(), null);
+            card.animate();
             view.addView(card);
             TextView day = (TextView) card.findViewById(R.id.day_label);
             day.setText(days[i]);

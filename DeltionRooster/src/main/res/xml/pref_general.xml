@@ -1,0 +1,34 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <EditTextPreference
+        android:key="Standaard Klas"
+        android:title="@string/pref_default_class"
+        android:defaultValue=""
+        android:selectAllOnFocus="true"
+        android:inputType="textCapWords"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:summary="Bijvoorbeeld: AO3A" />
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activitys code. -->
+
+    <Preference
+        android:title="@string/pref_about"
+        android:summary="Over deze app"
+        android:key="about"
+        android:enabled="true">
+    </Preference>
+
+    <Preference
+        android:title="@string/pref_license"
+        android:key="license"
+        android:enabled="true">
+    </Preference>
+
+
+</PreferenceScreen>

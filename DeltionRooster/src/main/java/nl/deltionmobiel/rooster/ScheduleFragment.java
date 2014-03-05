@@ -3,11 +3,12 @@ package nl.deltionmobiel.rooster;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-// import android.support.v4.app.Fragment;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 /**
@@ -47,7 +48,25 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
+        View v = inflater.inflate(R.layout.fragment_schedule, container, false);
+        String[] days = {
+                getText(R.string.monday).toString(),
+                getText(R.string.tuesday).toString(),
+                getText(R.string.wednesday).toString(),
+                getText(R.string.thursday).toString(),
+                getText(R.string.friday).toString()
+        };
+
+        LinearLayout view = (LinearLayout) v.findViewById(R.id.schedule_container);
+        view.removeAllViews();
+        for(int i = 0; i < days.length; i++) {
+            Card card = new Card(v.getContext(), null);
+            view.addView(card);
+            TextView day = (TextView) card.findViewById(R.id.day_label);
+            day.setText(days[i]);
+        }
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

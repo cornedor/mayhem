@@ -14,13 +14,5 @@
         android:weightSum="1"
         android:id="@+id/schedule_container">
 
-        <nl.deltionmobiel.rooster.Card
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></nl.deltionmobiel.rooster.Card>
-
-        <nl.deltionmobiel.rooster.Card
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></nl.deltionmobiel.rooster.Card>
-
     </LinearLayout>
 </ScrollView>

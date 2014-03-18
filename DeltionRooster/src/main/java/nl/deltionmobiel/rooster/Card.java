@@ -12,12 +12,10 @@ import android.widget.LinearLayout;
  */
 public class Card extends LinearLayout {
 
-
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.card, this);
     }
-
 }

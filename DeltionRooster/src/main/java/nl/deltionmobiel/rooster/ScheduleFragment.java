@@ -7,6 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,7 +62,16 @@ public class ScheduleFragment extends Fragment {
         LinearLayout view = (LinearLayout) v.findViewById(R.id.schedule_container);
         for(int i = 0; i < days.length; i++) {
             Card card = new Card(v.getContext(), null);
-            card.animate();
+            card.setAlpha(0);
+            card.setTranslationY(card.getTranslationY() + 200);
+            card.setRotationX(20);
+
+            card.animate()
+                    .alpha(1)
+                    .translationYBy(-200)
+                    .rotationX(0)
+                    .setDuration(300)
+                    .setStartDelay(i * 150);
             view.addView(card);
             TextView day = (TextView) card.findViewById(R.id.day_label);
             day.setText(days[i]);

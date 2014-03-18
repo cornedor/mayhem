@@ -72,8 +72,6 @@ public class SettingsActivity extends PreferenceActivity{
 
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
-
                 Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
                 startActivity(aboutIntent);
 

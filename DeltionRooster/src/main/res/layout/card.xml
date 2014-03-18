@@ -4,7 +4,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="197dp"
+    android:layout_height="wrap_content"
     android:padding="16.0dip"
     android:layout_marginBottom="8.0dip"
     android:background="@drawable/card_background"
@@ -18,13 +18,25 @@
             android:id="@+id/day_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Day"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
     </LinearLayout>
-    <ListView
+
+    <nl.deltionmobiel.rooster.Time
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="wrap_content"></nl.deltionmobiel.rooster.Time>
+    <nl.deltionmobiel.rooster.Time
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></nl.deltionmobiel.rooster.Time>
+    <nl.deltionmobiel.rooster.Time
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></nl.deltionmobiel.rooster.Time>
+    <nl.deltionmobiel.rooster.Time
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></nl.deltionmobiel.rooster.Time>
+    <nl.deltionmobiel.rooster.Time
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></nl.deltionmobiel.rooster.Time>
 
 </LinearLayout>

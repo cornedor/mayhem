@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="separator">#e5e5e5</color>
+    <color name="item_hover">#f8f8f8</color>
+</resources>

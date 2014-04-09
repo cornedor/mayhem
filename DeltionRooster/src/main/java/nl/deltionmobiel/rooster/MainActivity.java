@@ -1,20 +1,20 @@
 package nl.deltionmobiel.rooster;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends Activity
+public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                    ScheduleFragment.OnFragmentInteractionListener,
-                   DateFragment.OnFragmentInteractionListener {
+                   SectorFragment.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -47,7 +47,7 @@ public class MainActivity extends Activity
 
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
@@ -63,7 +63,7 @@ public class MainActivity extends Activity
 //        fragmentManager.beginTransaction()
 //                .replace(R.id.container, ScheduleFragment.newInstance())
 //                .commit();
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch(position) {
             case 0:
                 fragmentManager.beginTransaction()
@@ -72,7 +72,7 @@ public class MainActivity extends Activity
                 break;
             case 1:
                 fragmentManager.beginTransaction()
-                    .replace(R.id.container, DateFragment.newInstance())
+                    .replace(R.id.container, new DepartmentsFragment())
                     .commit();
                 break;
             case 4:

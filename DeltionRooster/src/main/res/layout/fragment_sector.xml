@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nl.deltionmobiel.rooster.DateFragment">
+    tools:context="nl.deltionmobiel.rooster.SectorFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -23,6 +23,24 @@
                 android:id="@+id/imageView"
                 android:src="@drawable/md"
                 android:scaleType="centerCrop" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300px"
+                android:orientation="vertical"
+                android:layout_marginTop="-300px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="40dp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_gravity="right"
+                    android:text="Techniek &amp; Transport"
+                    android:id="@+id/sectorName"
+                    android:textColor="#FFF"
+                    android:padding="20dp" />
+
+            </LinearLayout>
 
             <ListView
                 android:layout_width="wrap_content"
@@ -30,7 +48,7 @@
                 android:id="@+id/listView"
                 android:layout_gravity="center" />
 
-            </LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 </FrameLayout>

@@ -1,5 +1,8 @@
 package nl.deltionmobiel.rooster;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -110,6 +113,15 @@ public class MainActivity extends FragmentActivity
         actionBar.setTitle(mTitle);
     }
 
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,8 +129,10 @@ public class MainActivity extends FragmentActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.global, menu);
+            getMenuInflater().inflate(R.menu.main_activity_actions, menu);
             restoreActionBar();
+            if(isOnline())
+                menu.removeItem(R.id.action_offline);
             return true;
         }
         return super.onCreateOptionsMenu(menu);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_offline"
+        android:orderInCategory="10"
+        android:showAsAction="always|withText"
+        android:icon="@android:color/transparent"
+        android:title="@string/offline" />
+    <item android:id="@+id/action_refresh"
+        android:orderInCategory="20"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="ifRoom" />
+</menu>

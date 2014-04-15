@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -51,6 +55,18 @@ public class SectorFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sector, container, false);
 
         TextView name = (TextView) view.findViewById(R.id.sectorName);
+        ListView listView = (ListView) view.findViewById(R.id.listView);
+
+        final ArrayList<String> list = new ArrayList<String>();
+        for(int i = 0; i < 23; i++)
+        {
+            list.add( "R" + i + "B" + ((int) Math.ceil(Math.random() * 20)) );
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+//        adapter = new PresentationAdapter(this,
+//                android.R.layout.simple_list_item_1, list);
+
         String[] names = {
                 "ICT Lyceum",
                 "Techniek & Transport",

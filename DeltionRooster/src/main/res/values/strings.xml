@@ -27,5 +27,6 @@ De Deltion Rooster applicatie is in overleg met Deltion ontwikkelt maar staat we
     <string name="title_activity_disclaimer">Juridische Informatie</string>
     <string name="hello_world">Hello world!</string>
     <string name="disclaimer_title">Disclaimer</string>
+    <string name="no_groups">Geen klassen gevonden.</string>
 
 </resources>

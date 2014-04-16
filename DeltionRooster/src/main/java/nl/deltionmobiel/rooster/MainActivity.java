@@ -26,25 +26,10 @@ public class MainActivity extends FragmentActivity
      */
     private CharSequence mTitle;
 
-    private String departJSON;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /**
-         * Get json for departments
-         */
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                JSONParser parser = new JSONParser();
-                departJSON = parser.getJSONFromUrl("http://koenhendriks.com/rooster/oud/afdelingen.json");
-            }
-        }).start();
-
-
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);

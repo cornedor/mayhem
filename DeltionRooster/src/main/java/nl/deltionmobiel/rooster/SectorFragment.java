@@ -4,12 +4,18 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -23,10 +29,14 @@ import java.util.ArrayList;
 * create an instance of this fragment.
 *
 */
-public class SectorFragment extends Fragment {
+public class SectorFragment extends Fragment implements DataListener {
 
     private OnFragmentInteractionListener mListener;
     private int position;
+    private String name;
+    private ListView listView;
+    private ProgressBar progressBar;
+    private String jsonName;
 
     /**
      * Use this factory method to create a new instance of
@@ -34,11 +44,14 @@ public class SectorFragment extends Fragment {
      *
      * @return A new instance of fragment SectorFragment.
      */
-    public static SectorFragment newInstance(int position) {
+    public static SectorFragment newInstance(int position, String name, String jsonName) {
         SectorFragment fragment = new SectorFragment();
+        fragment.setName(name);
         fragment.setPosition(position);
+        fragment.setJSONName(jsonName);
         return fragment;
     }
+
     public SectorFragment() {
         // Required empty public constructor
     }
@@ -55,25 +68,21 @@ public class SectorFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sector, container, false);
 
         TextView name = (TextView) view.findViewById(R.id.sectorName);
-        ListView listView = (ListView) view.findViewById(R.id.listView);
+        listView = (ListView) view.findViewById(R.id.listView);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
-        final ArrayList<String> list = new ArrayList<String>();
-        for(int i = 0; i < 23; i++)
-        {
-            list.add( "R" + i + "B" + ((int) Math.ceil(Math.random() * 20)) );
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(adapter);
 //        adapter = new PresentationAdapter(this,
 //                android.R.layout.simple_list_item_1, list);
 
-        String[] names = {
+        /* String[] names = {
                 "ICT Lyceum",
                 "Techniek & Transport",
                 "Welzijn & Sport",
                 "Media & Design"
-        };
-        name.setText(names[position]);
+        }; */
+        name.setText(this.name);
+
+        new Data(this, this.getActivity()).getGroups();
 
         return view;
     }
@@ -104,6 +113,46 @@ public class SectorFragment extends Fragment {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public void setName(String name) { this.name = name; }
+
+    @Override
+    public void onDataLoaded(final JSONObject json) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final ArrayList<String> list = new ArrayList<String>();
+                    JSONObject groupJson = json.getJSONObject(jsonName);
+
+                    for (int i = 0; i < groupJson.length(); i++) {
+                        list.add(groupJson.getString(groupJson.names().getString(i)));
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+                    listView.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                } catch (JSONException e) {
+                    final ArrayList<String> list = new ArrayList<String>();
+                    list.add(getString(R.string.no_groups));
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+                    listView.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void noDataAvailable() {
+
+    }
+
+    public void setJSONName(String jsonName) {
+        this.jsonName = jsonName;
     }
 
     /**

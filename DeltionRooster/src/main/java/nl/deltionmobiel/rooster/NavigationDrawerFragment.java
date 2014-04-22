@@ -48,6 +48,8 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+    private static final String SELECT_WEEK = "selectedWeek";
+    private static final String SELECTED_GROUP = "selectedGroup";
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -104,8 +106,8 @@ public class NavigationDrawerFragment extends Fragment {
         int weekOfYear = new GregorianCalendar().get(Calendar.WEEK_OF_YEAR);
 
         SharedPreferences settings = getActivity().getSharedPreferences(RoosterPrefs, 0);
-        String selectedGroup = settings.getString("currentGroup","");
-        int selectedWeek = settings.getInt("selectedWeek", weekOfYear);
+        String selectedGroup = settings.getString(SELECTED_GROUP,"");
+        int selectedWeek = settings.getInt(SELECT_WEEK, weekOfYear);
 
         mDrawerCurrentWeek.setText("Week "+selectedWeek);
         if(selectedGroup == "")

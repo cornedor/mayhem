@@ -35,9 +35,6 @@ import java.util.GregorianCalendar;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    public static final String RoosterPrefs = "RoosterPrefs";
-
-
     /**
      * Remember the position of the selected item.
      */
@@ -48,8 +45,6 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-    private static final String SELECT_WEEK = "selectedWeek";
-    private static final String SELECTED_GROUP = "selectedGroup";
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -100,20 +95,27 @@ public class NavigationDrawerFragment extends Fragment {
         LinearLayout mDrawer = (LinearLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
 
-        TextView mDrawerCurrentGroup = (TextView) mDrawer.findViewById(R.id.current_group);
+        final TextView mDrawerCurrentGroup = (TextView) mDrawer.findViewById(R.id.current_group);
 
         TextView mDrawerCurrentWeek = (TextView) mDrawer.findViewById(R.id.current_week);
         int weekOfYear = new GregorianCalendar().get(Calendar.WEEK_OF_YEAR);
 
-        SharedPreferences settings = getActivity().getSharedPreferences(RoosterPrefs, 0);
-        String selectedGroup = settings.getString(SELECTED_GROUP,"");
-        int selectedWeek = settings.getInt(SELECT_WEEK, weekOfYear);
+        SharedPreferences settings = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
+        String selectedGroup = settings.getString(Config.SELECTED_GROUP, getString(R.string.no_group));
+        int selectedWeek = settings.getInt(Config.SELECT_WEEK, weekOfYear);
+
+        settings.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if(key.equals(Config.SELECTED_GROUP)) {
+                    mDrawerCurrentGroup.setText(sharedPreferences.getString(key, getString(R.string.no_group)));
+                }
+            }
+        });
 
         mDrawerCurrentWeek.setText("Week "+selectedWeek);
-        if(selectedGroup == "")
-            mDrawerCurrentGroup.setText("Geen klas");
-        else
-            mDrawerCurrentGroup.setText(selectedGroup);
+
+        mDrawerCurrentGroup.setText(selectedGroup);
 
 
 

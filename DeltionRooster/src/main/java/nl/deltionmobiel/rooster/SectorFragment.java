@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -129,6 +130,8 @@ public class SectorFragment extends Fragment implements DataListener {
                     for (int i = 0; i < groupJson.length(); i++) {
                         list.add(groupJson.getString(groupJson.names().getString(i)));
                     }
+
+                    Collections.sort(list);
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
                     listView.setAdapter(adapter);

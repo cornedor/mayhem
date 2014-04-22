@@ -57,7 +57,7 @@ public class Data {
     private void setCache(JSONObject json, String type) {
         if(type.equals(Config.API_DEPARTMENTS)) {
             set_departmentsCache(json);
-        } else if(type.equals(Config.API_DEPARTMENTS)) {
+        } else if(type.equals(Config.API_GROUPS)) {
             set_groupsCache(json);
         }
     }
@@ -67,12 +67,16 @@ public class Data {
             @Override
             public void run() {
                 try {
-
+                    System.out.println("getData()");
                     File file = new File(Environment.getExternalStorageDirectory() + "/.deltionroosterapp/" + filename);
                     if(file.exists()) {
+                        System.out.println("file exists");
                         Date curDate = new Date();
                         curDate.setTime( curDate.getTime() - (days*1000*60*60*24));
-                        if(file.lastModified() > curDate.getTime()) {
+                        System.out.println("Last modified: " + file.lastModified());
+                        System.out.println(".............. " + curDate.getTime());
+                        if(file.lastModified() < curDate.getTime()) {
+                            System.out.println("date OK");
                             String jsonString = FileUtils.readFileToString(file);
                             JSONObject json = new JSONObject(jsonString);
                             dataListener.onDataLoaded(json);
@@ -81,13 +85,19 @@ public class Data {
                         }
                     }
 
+                    System.out.println("check con");
+
                     // check internet connectivity
                     ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
                     NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
                     if(networkInfo == null || !networkInfo.isConnected()) {
                         dataListener.noDataAvailable();
+                        System.out.println("no data");
                         return;
                     }
+
+                    System.out.println("get from url");
+
                     JSONParser parser = new JSONParser();
                     String jsonString = parser.getJSONFromUrl(Config.API_URL + jsonUrl);
                     FileUtils.write(file, jsonString);

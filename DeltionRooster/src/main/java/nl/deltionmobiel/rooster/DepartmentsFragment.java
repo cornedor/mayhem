@@ -31,6 +31,7 @@ public class DepartmentsFragment extends Fragment implements DataListener {
             public void run() {
                 ViewPager pager = (ViewPager) view.findViewById(R.id.sectorpager);
                 GroupAdapter groupAdapter = new GroupAdapter(getActivity(), getChildFragmentManager());
+                System.out.println(json.names().toString());
                 groupAdapter.setJson(json);
                 pager.setAdapter(groupAdapter);
             }

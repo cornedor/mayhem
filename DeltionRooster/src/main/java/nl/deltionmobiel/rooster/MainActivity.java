@@ -58,7 +58,7 @@ public class MainActivity extends FragmentActivity
                     .replace(R.id.container, ScheduleFragment.newInstance())
                     .commit();
                 break;
-            case 1:
+            case 2:
                 fragmentManager.beginTransaction()
                     .replace(R.id.container, new DepartmentsFragment())
                     .commit();

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="AO3A"
-            android:id="@+id/textView"
+            android:id="@+id/current_group"
             android:textColor="#FFF"
             android:layout_marginTop="30dp"
             android:textStyle="bold" />
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Week 24"
-            android:id="@+id/textView2"
+            android:id="@+id/current_week"
             android:textColor="#FFF"
             android:textStyle="bold" />
     </LinearLayout>

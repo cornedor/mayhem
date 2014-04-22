@@ -83,8 +83,6 @@ public class SettingsActivity extends PreferenceActivity{
 
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
-
                 Intent licenseIntent = new Intent(getApplicationContext(), DisclaimerActivity.class);
                 startActivity(licenseIntent);
 

@@ -18,7 +18,7 @@ import android.view.MenuItem;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                    ScheduleFragment.OnFragmentInteractionListener,
-                   SectorFragment.OnFragmentInteractionListener {
+                   DepartmentFragment.OnFragmentInteractionListener {
 
     /**
      * Used to get preferences like current week or group

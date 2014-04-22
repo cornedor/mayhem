@@ -29,13 +29,13 @@ public class GroupAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // SectorFragment frag = new SectorFragment(position);
-        SectorFragment frag = null;
+        // DepartmentFragment frag = new DepartmentFragment(position);
+        DepartmentFragment frag = null;
         try {
             String jsonName = json.names().getString(position);
             String name = json.getString(jsonName);
             name = Html.fromHtml(name).toString();
-            frag = SectorFragment.newInstance(position, name, jsonName);
+            frag = DepartmentFragment.newInstance(position, name, jsonName);
         } catch (JSONException e) {
             e.printStackTrace();
         }

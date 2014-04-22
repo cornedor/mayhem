@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,13 +22,13 @@ import java.util.Collections;
 /**
 * A simple {@link android.support.v4.app.Fragment} subclass.
 * Activities that contain this fragment must implement the
-* {@link SectorFragment.OnFragmentInteractionListener} interface
+* {@link DepartmentFragment.OnFragmentInteractionListener} interface
 * to handle interaction events.
-* Use the {@link SectorFragment#newInstance} factory method to
+* Use the {@link DepartmentFragment#newInstance} factory method to
 * create an instance of this fragment.
 *
 */
-public class SectorFragment extends Fragment implements DataListener {
+public class DepartmentFragment extends Fragment implements DataListener {
 
     private OnFragmentInteractionListener mListener;
     private int position;
@@ -43,17 +41,17 @@ public class SectorFragment extends Fragment implements DataListener {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment SectorFragment.
+     * @return A new instance of fragment DepartmentFragment.
      */
-    public static SectorFragment newInstance(int position, String name, String jsonName) {
-        SectorFragment fragment = new SectorFragment();
+    public static DepartmentFragment newInstance(int position, String name, String jsonName) {
+        DepartmentFragment fragment = new DepartmentFragment();
         fragment.setName(name);
         fragment.setPosition(position);
         fragment.setJSONName(jsonName);
         return fragment;
     }
 
-    public SectorFragment() {
+    public DepartmentFragment() {
         // Required empty public constructor
     }
 

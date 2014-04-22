@@ -59,11 +59,12 @@ public class MainActivity extends FragmentActivity
 //                .replace(R.id.container, ScheduleFragment.newInstance())
 //                .commit();
         FragmentManager fragmentManager = getSupportFragmentManager();
+        SharedPreferences settings = getSharedPreferences(RoosterPrefs, 0);
+
         switch(position) {
             case 0:
-                SharedPreferences settings = getSharedPreferences(RoosterPrefs, 0);
                 String selectedGroup = settings.getString(SELECTED_GROUP,"");
-                if(selectedGroup == "") {
+                if(selectedGroup.equals("")) {
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, new DepartmentsFragment())
                             .commit();

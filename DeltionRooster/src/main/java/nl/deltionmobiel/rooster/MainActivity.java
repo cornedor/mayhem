@@ -1,6 +1,7 @@
 package nl.deltionmobiel.rooster;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
@@ -18,6 +19,12 @@ public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                    ScheduleFragment.OnFragmentInteractionListener,
                    SectorFragment.OnFragmentInteractionListener {
+
+    /**
+     * Used to get preferences like current week or group
+     */
+    public static final String RoosterPrefs = "RoosterPrefs";
+    private static final String SELECTED_GROUP = "selectedGroup";
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -54,10 +61,19 @@ public class MainActivity extends FragmentActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch(position) {
             case 0:
-                fragmentManager.beginTransaction()
-                    .replace(R.id.container, ScheduleFragment.newInstance())
-                    .commit();
-                break;
+                SharedPreferences settings = getSharedPreferences(RoosterPrefs, 0);
+                String selectedGroup = settings.getString(SELECTED_GROUP,"");
+                if(selectedGroup == "") {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, new DepartmentsFragment())
+                            .commit();
+                    break;
+                }else {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, ScheduleFragment.newInstance())
+                            .commit();
+                    break;
+                }
             case 2:
                 fragmentManager.beginTransaction()
                     .replace(R.id.container, new DepartmentsFragment())

@@ -1,11 +1,14 @@
 package nl.deltionmobiel.rooster;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +20,13 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -129,12 +136,16 @@ public class DepartmentFragment extends Fragment implements DataListener {
                     JSONObject groupJson = json.getJSONObject(jsonName);
 
                     for (int i = 0; i < groupJson.length(); i++) {
-                        list.add(groupJson.getString(groupJson.names().getString(i)));
+                        String name = groupJson.names().getString(i);
+                        list.add(groupJson.getString(name));
+                        if(name == Session.getGroup(getActivity())) {
+
+                        }
                     }
 
                     Collections.sort(list);
 
-                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+                    final GroupArrayAdapter adapter = new GroupArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
                     listView.setAdapter(adapter);
                     progressBar.setVisibility(View.GONE);
                     listView.setVisibility(View.VISIBLE);
@@ -145,9 +156,18 @@ public class DepartmentFragment extends Fragment implements DataListener {
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));
                             editor.commit();
+
+                            for(int j = 0; j < listView.getCount(); j++) {
+                                View v = listView.getChildAt(j);
+                                if(v == null) continue;
+                                TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                                tv.setTypeface(null, Typeface.NORMAL);
+                            }
+
+                            TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                            textView.setTypeface(null, Typeface.BOLD);
                         }
                     });
-
 
                 } catch (JSONException e) {
                     final ArrayList<String> list = new ArrayList<String>();
@@ -183,6 +203,48 @@ public class DepartmentFragment extends Fragment implements DataListener {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    private class GroupArrayAdapter extends ArrayAdapter<String> {
+
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        Context context;
+
+        public GroupArrayAdapter(Context context, int resource, List<String> objects) {
+            super(context, resource, objects);
+            this.context = context;
+            for(int i = 0; i < objects.size(); i++) {
+                map.put(objects.get(i), i);
+            }
+        }
+
+        @Override
+        public long getItemId(int pos) {
+            String item = getItem(position);
+            return map.get(item);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            TextView textView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+
+            String currentGroup = Session.getGroup(getActivity());
+
+            if(map.containsKey(currentGroup) && map.get(currentGroup) == position)
+                textView.setTypeface(null, Typeface.BOLD);
+
+            // if(convertView != null && map.get(Session.getGroup(getActivity())) == position)
+            //     ((TextView) convertView.findViewById(android.R.id.text1)).setTypeface(null, Typeface.BOLD);
+            return super.getView(position, textView, parent);
+        }
+
+        @Override
+        public String getItem(int position) {
+
+            // return Html.fromHtml("<b>BOLD</b>").toString();
+            return super.getItem(position);
+        }
     }
 
 }

@@ -64,6 +64,8 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    public SharedPreferences.OnSharedPreferenceChangeListener prefListener;
+
     public NavigationDrawerFragment() {
     }
 
@@ -104,14 +106,17 @@ public class NavigationDrawerFragment extends Fragment {
         String selectedGroup = settings.getString(Config.SELECTED_GROUP, getString(R.string.no_group));
         int selectedWeek = settings.getInt(Config.SELECT_WEEK, weekOfYear);
 
-        settings.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+        prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                Log.e("KEY: ", key);
                 if(key.equals(Config.SELECTED_GROUP)) {
                     mDrawerCurrentGroup.setText(sharedPreferences.getString(key, getString(R.string.no_group)));
                 }
             }
-        });
+        };
+
+        settings.registerOnSharedPreferenceChangeListener(prefListener);
 
         mDrawerCurrentWeek.setText("Week "+selectedWeek);
 

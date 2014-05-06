@@ -66,8 +66,23 @@ public class SettingsActivity extends PreferenceActivity{
         addPreferencesFromResource(R.xml.pref_general);
         Preference about = (Preference) findPreference("about");
         Preference license = (Preference) findPreference("license");
+        final Preference defaultGroup = (Preference) findPreference("Standaard Klas");
         assert about != null;
         assert license != null;
+        assert defaultGroup != null;
+
+        defaultGroup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent defaultGroupIntent = new Intent(getApplicationContext(), MainActivity.class);
+                defaultGroupIntent.putExtra(MainActivity.OPEN_FRAGMENT, 2);
+                startActivity(defaultGroupIntent);
+
+                return false;
+            }
+        });
+
         about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
 
             @Override

@@ -20,6 +20,8 @@ public class MainActivity extends FragmentActivity
                    ScheduleFragment.OnFragmentInteractionListener,
                    DepartmentFragment.OnFragmentInteractionListener {
 
+    final static public String OPEN_FRAGMENT = "openFragment";
+
     /**
      * Used to get preferences like current week or group
      */
@@ -41,6 +43,13 @@ public class MainActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        int openFragment = intent.getIntExtra(MainActivity.OPEN_FRAGMENT, -1);
+        if(openFragment != -1)
+        {
+            fragmentSwitcher(openFragment);
+        }
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -53,18 +62,23 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        fragmentSwitcher(position);
+    }
+
+    public void fragmentSwitcher(int position){
+
         // update the main content by replacing fragments
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, ScheduleFragment.newInstance())
-//                .commit();
+        //        FragmentManager fragmentManager = getFragmentManager();
+        //        fragmentManager.beginTransaction()
+        //                .replace(R.id.container, ScheduleFragment.newInstance())
+        //                .commit();
         FragmentManager fragmentManager = getSupportFragmentManager();
         SharedPreferences settings = getSharedPreferences(RoosterPrefs, 0);
 
         switch(position) {
             case 0:
-                String selectedGroup = settings.getString(SELECTED_GROUP,"");
-                if(selectedGroup.equals("")) {
+                String selectedGroup = Session.getGroup(this);
+                if(selectedGroup.equals("") || selectedGroup.equals(getString(R.string.no_group))) {
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, new DepartmentsFragment())
                             .commit();
@@ -82,8 +96,8 @@ public class MainActivity extends FragmentActivity
                 break;
             case 2:
                 fragmentManager.beginTransaction()
-                    .replace(R.id.container, new DepartmentsFragment())
-                    .commit();
+                        .replace(R.id.container, new DepartmentsFragment())
+                        .commit();
                 break;
             case 4:
                 Intent myIntent = new Intent(this, SettingsActivity.class);

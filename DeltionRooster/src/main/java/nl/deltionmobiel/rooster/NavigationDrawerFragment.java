@@ -109,7 +109,6 @@ public class NavigationDrawerFragment extends Fragment {
         prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                Log.e("KEY: ", key);
                 if(key.equals(Config.SELECTED_GROUP)) {
                     mDrawerCurrentGroup.setText(sharedPreferences.getString(key, getString(R.string.no_group)));
                 }

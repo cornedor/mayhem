@@ -157,6 +157,8 @@ public class DepartmentFragment extends Fragment implements DataListener {
                             editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));
                             editor.commit();
 
+                            Session.setGroup(adapter.getItem(i));
+
                             for(int j = 0; j < listView.getCount(); j++) {
                                 View v = listView.getChildAt(j);
                                 if(v == null) continue;

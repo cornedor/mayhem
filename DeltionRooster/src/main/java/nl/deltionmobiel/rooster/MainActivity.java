@@ -77,8 +77,8 @@ public class MainActivity extends FragmentActivity
 
         switch(position) {
             case 0:
-                String selectedGroup = settings.getString(SELECTED_GROUP,"");
-                if(selectedGroup.equals("")) {
+                String selectedGroup = Session.getGroup(this);
+                if(selectedGroup.equals("") || selectedGroup.equals(getString(R.string.no_group))) {
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, new DepartmentsFragment())
                             .commit();

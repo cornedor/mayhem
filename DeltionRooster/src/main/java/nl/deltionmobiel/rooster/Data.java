@@ -7,20 +7,23 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.jar.JarOutputStream;
 
 /**
  * Created by corne on 4/15/14.
  */
 public class Data {
 
-    private static JSONObject _departmentsCache = null;
-    private static JSONObject _groupsCache = null;
+    private static HashMap<String, Object> _cache = null;
 
     private DataListener dataListener;
     private Activity activity;
@@ -31,75 +34,110 @@ public class Data {
     }
 
     public void getDepartments() {
-        if(_departmentsCache == null) {
-            getData("departments.json", 30, Config.API_DEPARTMENTS);
-        } else {
-            dataListener.onDataLoaded(_departmentsCache);
-        }
+        getData("departments.json", 30, Config.API_DEPARTMENTS);
     }
 
     public void getGroups() {
-        if(_groupsCache == null) {
-            getData("groups.json", 30, Config.API_GROUPS);
-        } else {
-            dataListener.onDataLoaded(_groupsCache);
+        getData("groups.json", 30, Config.API_GROUPS);
+    }
+
+    public void getTimes() {
+        String group = Session.getGroup(activity);
+        if(!group.equals(activity.getString(R.string.no_group))) {
+            String department = Session.getDepartment(activity);
+
+            StringBuilder filename = new StringBuilder();
+            filename.append(department);
+            filename.append("_");
+            filename.append(group);
+            filename.append("_2014-05-12.json");
+
+            StringBuilder url = new StringBuilder();
+            url.append(department);
+            url.append("/");
+            url.append(group);
+            url.append("/2014-05-12");
+
+            System.out.println(url + "::::" + filename);
+
+
+            // getData("52_""_2014-05-12.json", -1, "52/AO3A/2014-05-12");
+            getData(filename.toString(), -1, url.toString());
         }
     }
 
-    private static void set_departmentsCache(JSONObject json) {
-        _departmentsCache = json;
-    }
-
-    private static void set_groupsCache(JSONObject json) {
-        _groupsCache = json;
-    }
-
-    private void setCache(JSONObject json, String type) {
-        if(type.equals(Config.API_DEPARTMENTS)) {
-            set_departmentsCache(json);
-        } else if(type.equals(Config.API_GROUPS)) {
-            set_groupsCache(json);
+    private static void _setCache(Object json, String type) {
+        if(_cache == null) {
+            _cache = new HashMap<String, Object>();
         }
+        _cache.put(type, json);
     }
 
     public void getData(final String filename, final int days, final String jsonUrl) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    File file = new File(Environment.getExternalStorageDirectory() + "/.deltionroosterapp/" + filename);
-                    if(file.exists()) {
-                        Date curDate = new Date();
-                        curDate.setTime( curDate.getTime() - (days*1000*60*60*24));
-                        if(file.lastModified() < curDate.getTime()) {
-                            String jsonString = FileUtils.readFileToString(file);
-                            JSONObject json = new JSONObject(jsonString);
-                            dataListener.onDataLoaded(json);
-                            setCache(json, jsonUrl);
+        Object cached = null;
+        if(_cache != null) {
+            cached = _cache.get(jsonUrl);
+        }
+
+        if(cached == null) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Object json = null;
+                        File file = new File(Environment.getExternalStorageDirectory() + "/.deltionroosterapp/" + filename);
+                        if (file.exists()) {
+                            Date curDate = new Date();
+                            curDate.setTime(curDate.getTime() - (days * 1000 * 60 * 60 * 24));
+                            if (file.lastModified() < curDate.getTime() || days == -1) {
+                                String jsonString = FileUtils.readFileToString(file);
+                                if(jsonString.charAt(0) == '[') {
+                                    json = new JSONArray(jsonString);
+                                } else {
+                                    json = new JSONObject(jsonString);
+                                }
+
+                                _setCache(json, jsonUrl);
+                                if(days != -1) {
+                                    dataListener.onDataLoaded(json);
+                                    return;
+                                }
+                            }
+                        }
+
+                        // check internet connectivity
+                        ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
+                        if (networkInfo == null || !networkInfo.isConnected()) {
+                            if(json == null) {
+                                dataListener.noDataAvailable();
+                            } else {
+                                dataListener.onDataLoaded(json);
+                            }
                             return;
                         }
-                    }
 
-                    // check internet connectivity
-                    ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-                    NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
-                    if(networkInfo == null || !networkInfo.isConnected()) {
-                        dataListener.noDataAvailable();
-                        return;
+                        JSONParser parser = new JSONParser();
+                        String jsonString = parser.getJSONFromUrl(Config.API_URL + jsonUrl);
+                        FileUtils.write(file, jsonString);
+                        if(jsonString.charAt(0) == '[') {
+                            json = new JSONArray(jsonString);
+                        } else {
+                            json = new JSONObject(jsonString);
+                        }
+                        System.out.println("=====");
+                        System.out.println(json);
+                        dataListener.onDataLoaded(json);
+                        _setCache(json, jsonUrl);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
-                    JSONParser parser = new JSONParser();
-                    String jsonString = parser.getJSONFromUrl(Config.API_URL + jsonUrl);
-                    FileUtils.write(file, jsonString);
-                    JSONObject json = new JSONObject(jsonString);
-                    dataListener.onDataLoaded(json);
-                    setCache(json, jsonUrl);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
-        }).start();
+            }).start();
+        } else {
+            dataListener.onDataLoaded(cached);
+        }
     }
 }

@@ -11,4 +11,5 @@ public class Config {
     public static final String ROOSTER_PREFS = "RoosterPrefs";
     public static final String SELECT_WEEK = "selectedWeek";
     public static final String SELECTED_GROUP = "selectedGroup";
+    public static final String SELECTED_DEPARTMENT = "selectedDepartment";
 }

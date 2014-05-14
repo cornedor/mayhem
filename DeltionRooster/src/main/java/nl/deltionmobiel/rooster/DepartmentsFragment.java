@@ -25,7 +25,8 @@ public class DepartmentsFragment extends Fragment implements DataListener {
     }
 
     @Override
-    public void onDataLoaded(final JSONObject json) {
+    public void onDataLoaded(Object out) {
+        final JSONObject json = (JSONObject) out;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

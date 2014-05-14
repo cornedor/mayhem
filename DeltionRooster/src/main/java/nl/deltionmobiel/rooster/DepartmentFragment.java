@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -127,7 +128,8 @@ public class DepartmentFragment extends Fragment implements DataListener {
     public void setName(String name) { this.name = name; }
 
     @Override
-    public void onDataLoaded(final JSONObject json) {
+    public void onDataLoaded(Object out) {
+        final JSONObject json = (JSONObject) out;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -155,7 +157,11 @@ public class DepartmentFragment extends Fragment implements DataListener {
                             SharedPreferences pref = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));
+                            editor.putString(Config.SELECTED_DEPARTMENT, jsonName);
                             editor.commit();
+
+                            Session.setGroup(adapter.getItem(i));
+                            Session.setDepartment(jsonName);
 
                             for(int j = 0; j < listView.getCount(); j++) {
                                 View v = listView.getChildAt(j);

@@ -89,6 +89,11 @@ public class MainActivity extends FragmentActivity
                             .commit();
                     break;
                 }
+            case 1:
+//                fragmentManager.beginTransaction()
+//                    .replace(R.id.container, new WeeksFragment())
+//                    .commit();
+                break;
             case 2:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new DepartmentsFragment())

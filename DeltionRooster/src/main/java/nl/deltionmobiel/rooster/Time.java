@@ -31,9 +31,6 @@ public class Time extends RelativeLayout implements View.OnTouchListener, View.O
 
         teacher = (TextView) findViewById(R.id.teacher);
         room = (TextView) findViewById(R.id.room);
-
-        teacher2 = (TextView) findViewById(R.id.teacher2);
-        room2 = (TextView) findViewById(R.id.room2);
     }
 
     @Override
@@ -51,13 +48,9 @@ public class Time extends RelativeLayout implements View.OnTouchListener, View.O
         if(teacher.getVisibility() == GONE) {
             teacher.setVisibility(VISIBLE);
             room.setVisibility(VISIBLE);
-            teacher2.setVisibility(VISIBLE);
-            room2.setVisibility(VISIBLE);
         } else {
             teacher.setVisibility(GONE);
             room.setVisibility(GONE);
-            teacher2.setVisibility(GONE);
-            room2.setVisibility(GONE);
         }
     }
 

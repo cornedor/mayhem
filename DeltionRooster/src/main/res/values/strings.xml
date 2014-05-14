@@ -28,7 +28,7 @@ De Deltion Rooster applicatie is in overleg met Deltion ontwikkelt maar staat we
     <string name="hello_world">Hello world!</string>
     <string name="disclaimer_title">Disclaimer</string>
     <string name="offline">Offline</string>
-    <string name="no_groups">Geen klassen gevonden.</string>
+    <string name="no_groups">Deze afdeling heeft geen klassen.</string>
     <string name="no_group">Geen klas</string>
 
 </resources>

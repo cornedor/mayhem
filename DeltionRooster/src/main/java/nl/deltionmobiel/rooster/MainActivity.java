@@ -90,6 +90,9 @@ public class MainActivity extends FragmentActivity
                     break;
                 }
             case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new YearFragment())
+                        .commit();
 //                fragmentManager.beginTransaction()
 //                    .replace(R.id.container, new WeeksFragment())
 //                    .commit();

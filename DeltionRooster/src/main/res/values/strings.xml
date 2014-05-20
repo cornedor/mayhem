@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Deltion Rooster</string>
+    <string name="app_name_offline">Deltion Rooster - Offline</string>
     <string name="rooster">Rooster</string>
     <string name="select_week">Selecteer week</string>
     <string name="select_class">Selecteer klas</string>
@@ -27,8 +28,9 @@ De Deltion Rooster applicatie is in overleg met Deltion ontwikkelt maar staat we
     <string name="title_activity_disclaimer">Juridische Informatie</string>
     <string name="hello_world">Hello world!</string>
     <string name="disclaimer_title">Disclaimer</string>
-    <string name="offline">Offline</string>
+    <string name="offline"></string>
     <string name="no_groups">Deze afdeling heeft geen klassen.</string>
     <string name="no_group">Geen klas</string>
+    <string name="refresh"></string>
 
 </resources>

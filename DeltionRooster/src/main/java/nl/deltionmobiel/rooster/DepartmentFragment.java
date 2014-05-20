@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ public class DepartmentFragment extends Fragment implements DataListener {
     private ListView listView;
     private ProgressBar progressBar;
     private String jsonName;
+    private HashMap<String, Integer> dList;
 
     /**
      * Use this factory method to create a new instance of
@@ -135,14 +137,13 @@ public class DepartmentFragment extends Fragment implements DataListener {
             public void run() {
                 try {
                     final ArrayList<String> list = new ArrayList<String>();
+                    dList = new HashMap<String, Integer>();
                     JSONObject groupJson = json.getJSONObject(jsonName);
-
                     for (int i = 0; i < groupJson.length(); i++) {
                         String name = groupJson.names().getString(i);
-                        list.add(groupJson.getString(name));
-                        if(name == Session.getGroup(getActivity())) {
+                        dList.put(groupJson.getString(name), Integer.parseInt(name));
 
-                        }
+                        list.add(groupJson.getString(name));
                     }
 
                     Collections.sort(list);
@@ -158,8 +159,10 @@ public class DepartmentFragment extends Fragment implements DataListener {
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));
                             editor.putString(Config.SELECTED_DEPARTMENT, jsonName);
+                            editor.putInt(Config.SELECTED_GROUP_ID, dList.get(adapter.getItem(i)));
                             editor.commit();
 
+                            Session.setGroupId(dList.get(adapter.getItem(i)));
                             Session.setGroup(adapter.getItem(i));
                             Session.setDepartment(jsonName);
 
@@ -172,6 +175,11 @@ public class DepartmentFragment extends Fragment implements DataListener {
 
                             TextView textView = (TextView) view.findViewById(android.R.id.text1);
                             textView.setTypeface(null, Typeface.BOLD);
+
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.container, ScheduleFragment.newInstance())
+                                    .commit();
                         }
                     });
 

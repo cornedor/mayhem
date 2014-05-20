@@ -12,4 +12,5 @@ public class Config {
     public static final String SELECT_WEEK = "selectedWeek";
     public static final String SELECTED_GROUP = "selectedGroup";
     public static final String SELECTED_DEPARTMENT = "selectedDepartment";
+    public static final String SELECTED_GROUP_ID = "selectedGroupId";
 }

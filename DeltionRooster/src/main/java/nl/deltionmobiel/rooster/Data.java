@@ -42,8 +42,8 @@ public class Data {
     }
 
     public void getTimes() {
-        String group = Session.getGroup(activity);
-        if(!group.equals(activity.getString(R.string.no_group))) {
+        Integer group = Session.getGroupId(activity);
+        if(group != -1) {
             String department = Session.getDepartment(activity);
 
             StringBuilder filename = new StringBuilder();
@@ -125,8 +125,6 @@ public class Data {
                         } else {
                             json = new JSONObject(jsonString);
                         }
-                        System.out.println("=====");
-                        System.out.println(json);
                         dataListener.onDataLoaded(json);
                         _setCache(json, jsonUrl);
                     } catch (JSONException e) {

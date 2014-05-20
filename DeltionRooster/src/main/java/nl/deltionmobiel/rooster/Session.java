@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
  */
 public class Session {
     private static String _group = null;
+    private static Integer _groupId = null;
     private static String _department = null;
 
     public static void setGroup(String group) {
@@ -32,5 +33,17 @@ public class Session {
             setDepartment(prefs.getString(Config.SELECTED_DEPARTMENT, activity.getString(R.string.no_group)));
         }
         return _department;
+    }
+
+    public static void setGroupId(Integer id) {
+        _groupId = id;
+    }
+
+    public static Integer getGroupId(Activity activity) {
+        if(_groupId == null) {
+            SharedPreferences prefs = activity.getSharedPreferences(Config.ROOSTER_PREFS, 0);
+            setGroupId(prefs.getInt(Config.SELECTED_GROUP_ID, -1));
+        }
+        return _groupId;
     }
 }

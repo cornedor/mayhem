@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         SharedPreferences settings = getSharedPreferences(RoosterPrefs, 0);
 
-        currentPosition = position;
+        Session.setCurrentFragment(position);
 
         switch(position) {
             case 0:
@@ -216,7 +216,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onDataLoaded(Object json) {
-        fragmentSwitcher(currentPosition);
+        fragmentSwitcher(Session.getCurrentFragment());
     }
 
     @Override

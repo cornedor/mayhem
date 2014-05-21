@@ -176,6 +176,8 @@ public class DepartmentFragment extends Fragment implements DataListener {
                             TextView textView = (TextView) view.findViewById(android.R.id.text1);
                             textView.setTypeface(null, Typeface.BOLD);
 
+
+                            Session.setCurrentFragment(0);
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             fragmentManager.beginTransaction()
                                     .replace(R.id.container, ScheduleFragment.newInstance())

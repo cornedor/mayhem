@@ -1,6 +1,7 @@
 package nl.deltionmobiel.rooster;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,8 @@ public class ScheduleFragment extends Fragment implements DataListener {
 
     private OnFragmentInteractionListener mListener;
 
+    private ProgressDialog pDialog;
+
     private View v;
     private LinearLayout view;
 
@@ -55,6 +58,11 @@ public class ScheduleFragment extends Fragment implements DataListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Rooster ophalen ...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
     @Override
@@ -136,6 +144,8 @@ public class ScheduleFragment extends Fragment implements DataListener {
                             teacher.setText(teacherStr);
                             room.setText(roomStr);
                         }
+
+                        pDialog.dismiss();
 
                         card.setAlpha(0);
                         card.setTranslationY(card.getTranslationY() + 200);

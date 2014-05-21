@@ -10,6 +10,7 @@ public class Session {
     private static String _group = null;
     private static Integer _groupId = null;
     private static String _department = null;
+    private static Integer _currentFragment = null;
 
     public static void setGroup(String group) {
         _group = group;
@@ -46,4 +47,14 @@ public class Session {
         }
         return _groupId;
     }
+
+    public static void setCurrentFragment(Integer position) {
+        _currentFragment = position;
+    }
+
+    public static Integer getCurrentFragment() {
+        return _currentFragment;
+    }
+
+
 }

@@ -137,8 +137,8 @@ public class MainActivity extends FragmentActivity
     public void showOffline(){
 
         new AlertDialog.Builder(this)
-                .setTitle("Offline")
-                .setMessage("We kunnen geen verbinding maken met het internet. Eerder opgeslagen content wordt nu weergegeven.")
+                .setTitle(getString(R.string.offline_message_title))
+                .setMessage(getString(R.string.offline_message))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 

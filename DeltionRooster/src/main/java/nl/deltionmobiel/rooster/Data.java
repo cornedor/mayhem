@@ -33,6 +33,12 @@ public class Data {
         this.activity = activity;
     }
 
+    public void update() {
+        getData("departments.json", -1, Config.API_DEPARTMENTS);
+        getData("groups.json", -1, Config.API_GROUPS);
+        getTimes();
+    }
+
     public void getDepartments() {
         getData("departments.json", 30, Config.API_DEPARTMENTS);
     }

@@ -21,7 +21,8 @@ import android.view.MenuItem;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                    ScheduleFragment.OnFragmentInteractionListener,
-                   DepartmentFragment.OnFragmentInteractionListener {
+                   DepartmentFragment.OnFragmentInteractionListener,
+                   DataListener {
 
     final static public String OPEN_FRAGMENT = "openFragment";
 
@@ -169,8 +170,12 @@ public class MainActivity extends FragmentActivity
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main_activity_actions, menu);
             restoreActionBar();
-            if(isOnline())
-                menu.removeItem(R.id.action_offline);
+            if(isOnline()){
+                MenuItem item = menu.findItem(R.id.action_offline);
+                assert item != null;
+                item.setVisible(false);
+                this.invalidateOptionsMenu();
+            }
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -183,7 +188,15 @@ public class MainActivity extends FragmentActivity
                 showOffline();
                 return true;
             case R.id.action_refresh:
-                Log.w("","Refresh stuff");
+                if(isOnline()){
+                    item.setVisible(false);
+                    this.invalidateOptionsMenu();
+                    new Data(this, this).update();
+                }else{
+                    item.setVisible(true);
+                    this.invalidateOptionsMenu();
+                    showOffline();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -192,6 +205,20 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onDataLoaded(Object json) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, ScheduleFragment.newInstance())
+                .commit();
+    }
+
+    @Override
+    public void noDataAvailable() {
 
     }
 }

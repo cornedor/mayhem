@@ -32,6 +32,9 @@ public class MainActivity extends FragmentActivity
     public static final String RoosterPrefs = "RoosterPrefs";
     private static final String SELECTED_GROUP = "selectedGroup";
 
+    //Current position of the fragment
+    public int currentPosition;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -78,6 +81,8 @@ public class MainActivity extends FragmentActivity
         //                .commit();
         FragmentManager fragmentManager = getSupportFragmentManager();
         SharedPreferences settings = getSharedPreferences(RoosterPrefs, 0);
+
+        currentPosition = position;
 
         switch(position) {
             case 0:
@@ -140,9 +145,7 @@ public class MainActivity extends FragmentActivity
                 .setTitle(getString(R.string.offline_message_title))
                 .setMessage(getString(R.string.offline_message))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 })
                 .setIcon(R.drawable.ic_action_network_wifi_fail)
                 .show();
@@ -213,11 +216,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onDataLoaded(Object json) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, ScheduleFragment.newInstance())
-                .commit();
+        fragmentSwitcher(currentPosition);
     }
 
     @Override

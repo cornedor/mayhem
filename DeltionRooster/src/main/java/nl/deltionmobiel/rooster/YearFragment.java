@@ -20,10 +20,10 @@ public class YearFragment extends Fragment implements DataListener {
         view = inflater.inflate(R.layout.yearpager, container, false);
 
         ViewPager pager = (ViewPager) view.findViewById(R.id.yearpager);
-        ArrayAdapter<Integer> yearAdapter = new ArrayAdapter<Integer>(getActivity(), 0);
-        yearAdapter.add(2014);
-        yearAdapter.add(2015);
-        yearAdapter.add(2016);
+
+        YearAdapter adapter = new YearAdapter(getActivity(), getChildFragmentManager());
+
+        pager.setAdapter(adapter);
 
 
         return view;

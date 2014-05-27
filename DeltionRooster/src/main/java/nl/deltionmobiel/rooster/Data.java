@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,11 @@ public class Data {
         Integer group = Session.getGroupId(activity);
         if(group != -1) {
             String department = Session.getDepartment(activity);
+
+            Calendar cal = Calendar.getInstance();
+            System.out.println("WEEK: " + Session.getWeek(activity));
+            cal.set(Calendar.WEEK_OF_YEAR, Session.getWeek(activity));
+            System.out.println(cal.getFirstDayOfWeek());
 
             StringBuilder filename = new StringBuilder();
             filename.append(department);
@@ -86,21 +92,23 @@ public class Data {
                     try {
                         Object json = null;
                         File file = new File(Environment.getExternalStorageDirectory() + "/.deltionroosterapp/" + filename);
-                        if (file.exists()) {
+                        if (file.exists() && false) {
                             Date curDate = new Date();
                             curDate.setTime(curDate.getTime() - (days * 1000 * 60 * 60 * 24));
                             if (file.lastModified() < curDate.getTime() || days == -1) {
                                 String jsonString = FileUtils.readFileToString(file);
-                                if(jsonString.charAt(0) == '[') {
-                                    json = new JSONArray(jsonString);
-                                } else {
-                                    json = new JSONObject(jsonString);
-                                }
+                                if(jsonString.length() != 0) {
+                                    if (jsonString.charAt(0) == '[') {
+                                        json = new JSONArray(jsonString);
+                                    } else {
+                                        json = new JSONObject(jsonString);
+                                    }
 
-                                _setCache(json, jsonUrl);
-                                if(days != -1) {
-                                    dataListener.onDataLoaded(json);
-                                    return;
+                                    _setCache(json, jsonUrl);
+                                    if (days != -1) {
+                                        dataListener.onDataLoaded(json);
+                                        return;
+                                    }
                                 }
                             }
                         }
@@ -116,10 +124,14 @@ public class Data {
                             }
                             return;
                         }
-
                         JSONParser parser = new JSONParser();
                         String jsonString = parser.getJSONFromUrl(Config.API_URL + jsonUrl);
+                        System.out.println(jsonString);
                         FileUtils.write(file, jsonString);
+                        if(jsonString.length() == 0) {
+                            dataListener.noDataAvailable();
+                            return;
+                        }
                         if(jsonString.charAt(0) == '[') {
                             json = new JSONArray(jsonString);
                         } else {

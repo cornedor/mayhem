@@ -83,15 +83,6 @@ public class DepartmentFragment extends Fragment implements DataListener {
         listView = (ListView) view.findViewById(R.id.listView);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
-//        adapter = new PresentationAdapter(this,
-//                android.R.layout.simple_list_item_1, list);
-
-        /* String[] names = {
-                "ICT Lyceum",
-                "Techniek & Transport",
-                "Welzijn & Sport",
-                "Media & Design"
-        }; */
         name.setText(this.name);
 
         new Data(this, this.getActivity()).getGroups();
@@ -155,12 +146,14 @@ public class DepartmentFragment extends Fragment implements DataListener {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            SharedPreferences pref = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
-                            SharedPreferences.Editor editor = pref.edit();
-                            editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));
-                            editor.putString(Config.SELECTED_DEPARTMENT, jsonName);
-                            editor.putInt(Config.SELECTED_GROUP_ID, dList.get(adapter.getItem(i)));
-                            editor.commit();
+                            if(!Session.selectDefault()) {
+                                SharedPreferences pref = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));
+                                editor.putString(Config.SELECTED_DEPARTMENT, jsonName);
+                                editor.putInt(Config.SELECTED_GROUP_ID, dList.get(adapter.getItem(i)));
+                                editor.commit();
+                            }
 
                             Session.setGroupId(dList.get(adapter.getItem(i)));
                             Session.setGroup(adapter.getItem(i));

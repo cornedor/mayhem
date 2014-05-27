@@ -3,13 +3,17 @@ package nl.deltionmobiel.rooster;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import java.util.Calendar;
+
 /**
  * Created by corne on 4/23/14.
  */
 public class Session {
     private static String _group = null;
-    private static Integer _groupId = null;
     private static String _department = null;
+    private static Integer _groupId = null;
+    private static Integer _week = null;
+    private static Boolean _selectDefault = false;
 
     public static void setGroup(String group) {
         _group = group;
@@ -45,5 +49,26 @@ public class Session {
             setGroupId(prefs.getInt(Config.SELECTED_GROUP_ID, -1));
         }
         return _groupId;
+    }
+
+    public static void setWeek(Integer week) {
+        _week = week;
+    }
+
+    public static Integer getWeek(Activity activity) {
+        if(_week == null) {
+            Calendar cal = Calendar.getInstance();
+            SharedPreferences prefs = activity.getSharedPreferences(Config.ROOSTER_PREFS, 0);
+            setWeek(prefs.getInt(Config.SELECTED_WEEK, cal.get(Calendar.WEEK_OF_YEAR)));
+        }
+        return _week;
+    }
+
+    public static void selectDefault(boolean b) {
+        _selectDefault = b;
+    }
+
+    public static Boolean selectDefault() {
+        return _selectDefault;
     }
 }

@@ -98,13 +98,12 @@ public class NavigationDrawerFragment extends Fragment {
                 R.layout.fragment_navigation_drawer, container, false);
 
         final TextView mDrawerCurrentGroup = (TextView) mDrawer.findViewById(R.id.current_group);
-
-        TextView mDrawerCurrentWeek = (TextView) mDrawer.findViewById(R.id.current_week);
+        final TextView mDrawerCurrentWeek = (TextView) mDrawer.findViewById(R.id.current_week);
         int weekOfYear = new GregorianCalendar().get(Calendar.WEEK_OF_YEAR);
 
         SharedPreferences settings = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
         String selectedGroup = settings.getString(Config.SELECTED_GROUP, getString(R.string.no_group));
-        int selectedWeek = settings.getInt(Config.SELECT_WEEK, weekOfYear);
+        final int selectedWeek = settings.getInt(Config.SELECTED_WEEK, weekOfYear);
 
         prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -112,12 +111,16 @@ public class NavigationDrawerFragment extends Fragment {
                 if(key.equals(Config.SELECTED_GROUP)) {
                     mDrawerCurrentGroup.setText(sharedPreferences.getString(key, getString(R.string.no_group)));
                 }
+
+                if(key.equals(Config.SELECTED_WEEK)) {
+                    mDrawerCurrentWeek.setText("Week " + Session.getWeek(getActivity()));
+                }
             }
         };
 
         settings.registerOnSharedPreferenceChangeListener(prefListener);
 
-        mDrawerCurrentWeek.setText("Week "+selectedWeek);
+        mDrawerCurrentWeek.setText("Week " + selectedWeek);
 
         mDrawerCurrentGroup.setText(selectedGroup);
 
@@ -127,6 +130,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Session.selectDefault(false);
                 selectItem(position);
             }
         });
@@ -201,6 +205,12 @@ public class NavigationDrawerFragment extends Fragment {
                             .getDefaultSharedPreferences(getActivity());
                     sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
+
+                final TextView mDrawerCurrentGroup = (TextView) drawerView.findViewById(R.id.current_group);
+                final TextView mDrawerCurrentWeek = (TextView) drawerView.findViewById(R.id.current_week);
+                mDrawerCurrentGroup.setText(Session.getGroup(getActivity()));
+                mDrawerCurrentWeek.setText("Week " + Session.getWeek(getActivity()));
+
 
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }

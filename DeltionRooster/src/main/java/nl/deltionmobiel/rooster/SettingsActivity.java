@@ -33,7 +33,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity{
+public class SettingsActivity extends PreferenceActivity {
     /**
      * Determines whether to always show the simplified settings UI, where
      * settings are presented in a single list. When false, settings are shown
@@ -75,6 +75,7 @@ public class SettingsActivity extends PreferenceActivity{
 
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                Session.selectDefault(true);
                 Intent defaultGroupIntent = new Intent(getApplicationContext(), MainActivity.class);
                 defaultGroupIntent.putExtra(MainActivity.OPEN_FRAGMENT, 2);
                 startActivity(defaultGroupIntent);

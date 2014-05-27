@@ -79,6 +79,7 @@ public class MainActivity extends FragmentActivity
             case 0:
                 String selectedGroup = Session.getGroup(this);
                 if(selectedGroup.equals("") || selectedGroup.equals(getString(R.string.no_group))) {
+                    Session.selectDefault(true);
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, new DepartmentsFragment())
                             .commit();
@@ -93,9 +94,6 @@ public class MainActivity extends FragmentActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new YearFragment())
                         .commit();
-//                fragmentManager.beginTransaction()
-//                    .replace(R.id.container, new WeeksFragment())
-//                    .commit();
                 break;
             case 2:
                 fragmentManager.beginTransaction()

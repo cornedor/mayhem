@@ -1,6 +1,8 @@
 package nl.deltionmobiel.rooster;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,7 +21,8 @@ import android.view.MenuItem;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                    ScheduleFragment.OnFragmentInteractionListener,
-                   DepartmentFragment.OnFragmentInteractionListener {
+                   DepartmentFragment.OnFragmentInteractionListener,
+                   DataListener {
 
     final static public String OPEN_FRAGMENT = "openFragment";
 
@@ -27,6 +31,9 @@ public class MainActivity extends FragmentActivity
      */
     public static final String RoosterPrefs = "RoosterPrefs";
     private static final String SELECTED_GROUP = "selectedGroup";
+
+    //Current position of the fragment
+    public int currentPosition;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -74,6 +81,8 @@ public class MainActivity extends FragmentActivity
         //                .commit();
         FragmentManager fragmentManager = getSupportFragmentManager();
         SharedPreferences settings = getSharedPreferences(RoosterPrefs, 0);
+
+        Session.setCurrentFragment(position);
 
         switch(position) {
             case 0:
@@ -128,6 +137,18 @@ public class MainActivity extends FragmentActivity
         }
     }
 
+    public void showOffline(){
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.offline_message_title))
+                .setMessage(getString(R.string.offline_message))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {}
+                })
+                .setIcon(R.drawable.ic_action_network_wifi_fail)
+                .show();
+    }
+
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -153,8 +174,12 @@ public class MainActivity extends FragmentActivity
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main_activity_actions, menu);
             restoreActionBar();
-            if(isOnline())
-                menu.removeItem(R.id.action_offline);
+            if(isOnline()){
+                MenuItem item = menu.findItem(R.id.action_offline);
+                assert item != null;
+                item.setVisible(false);
+                this.invalidateOptionsMenu();
+            }
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -162,15 +187,38 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_offline:
+                showOffline();
+                return true;
+            case R.id.action_refresh:
+                if(isOnline()){
+                    item.setVisible(false);
+                    this.invalidateOptionsMenu();
+                    new Data(this, this).update();
+                }else{
+                    item.setVisible(true);
+                    this.invalidateOptionsMenu();
+                    showOffline();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onDataLoaded(Object json) {
+        fragmentSwitcher(Session.getCurrentFragment());
+    }
+
+    @Override
+    public void noDataAvailable() {
 
     }
 }

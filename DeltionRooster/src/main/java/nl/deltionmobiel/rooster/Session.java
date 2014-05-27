@@ -14,6 +14,7 @@ public class Session {
     private static Integer _groupId = null;
     private static Integer _week = null;
     private static Boolean _selectDefault = false;
+    private static Integer _currentFragment = null;
 
     public static void setGroup(String group) {
         _group = group;
@@ -70,5 +71,13 @@ public class Session {
 
     public static Boolean selectDefault() {
         return _selectDefault;
+    }
+
+    public static void setCurrentFragment(Integer position) {
+        _currentFragment = position;
+    }
+
+    public static Integer getCurrentFragment() {
+        return _currentFragment;
     }
 }

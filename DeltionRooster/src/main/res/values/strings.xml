@@ -27,8 +27,11 @@ De Deltion Rooster applicatie is in overleg met Deltion ontwikkelt maar staat we
     <string name="title_activity_disclaimer">Juridische Informatie</string>
     <string name="hello_world">Hello world!</string>
     <string name="disclaimer_title">Disclaimer</string>
-    <string name="offline">Offline</string>
+    <string name="offline"></string>
     <string name="no_groups">Deze afdeling heeft geen klassen.</string>
     <string name="no_group">Geen klas</string>
+    <string name="refresh"></string>
+    <string name="offline_message_title">Offline</string>
+    <string name="offline_message">We kunnen geen verbinding maken met het internet. Eerder opgeslagen content wordt nu weergegeven.</string>
 
 </resources>

@@ -86,6 +86,7 @@ public class WeekFragment extends Fragment {
                 Integer week = Integer.decode(weekStr);
 
                 Session.setWeek(week);
+                Session.setCurrentFragment(0);
 
                 SharedPreferences pref = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
                 SharedPreferences.Editor editor = pref.edit();

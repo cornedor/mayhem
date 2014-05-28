@@ -51,10 +51,7 @@ public class MainActivity extends FragmentActivity
 
         Intent intent = getIntent();
         int openFragment = intent.getIntExtra(MainActivity.OPEN_FRAGMENT, -1);
-        if(openFragment != -1)
-        {
-            System.out.println(openFragment);
-            System.out.println("YOLO!!!!");
+        if(openFragment != -1) {
             fragmentSwitcher(openFragment);
         }
 

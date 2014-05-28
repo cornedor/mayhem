@@ -33,5 +33,7 @@ De Deltion Rooster applicatie is in overleg met Deltion ontwikkelt maar staat we
     <string name="refresh"></string>
     <string name="offline_message_title">Offline</string>
     <string name="offline_message">We kunnen geen verbinding maken met het internet. Eerder opgeslagen content wordt nu weergegeven.</string>
+    <string name="offline_fail_message">De Deltion rooster website is niet te bereiken of geeft foutieve informatie.</string>
+    <string name="offline_fail_title">Er is iets niet goed gegaan</string>
 
 </resources>

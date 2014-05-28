@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -54,6 +53,8 @@ public class MainActivity extends FragmentActivity
         int openFragment = intent.getIntExtra(MainActivity.OPEN_FRAGMENT, -1);
         if(openFragment != -1)
         {
+            System.out.println(openFragment);
+            System.out.println("YOLO!!!!");
             fragmentSwitcher(openFragment);
         }
 

@@ -1,7 +1,9 @@
 package nl.deltionmobiel.rooster;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -174,6 +176,20 @@ public class ScheduleFragment extends Fragment implements DataListener {
 
     @Override
     public void noDataAvailable() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                pDialog.dismiss();
+
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(getString(R.string.offline_fail_title))
+                        .setMessage(getString(R.string.offline_fail_message))
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {}
+                        })
+                        .show();
+            }
+        });
 
     }
 

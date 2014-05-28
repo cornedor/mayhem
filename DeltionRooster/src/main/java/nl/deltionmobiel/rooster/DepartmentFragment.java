@@ -146,7 +146,7 @@ public class DepartmentFragment extends Fragment implements DataListener {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            if(!Session.selectDefault()) {
+                            if(Session.selectDefault()) {
                                 SharedPreferences pref = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));

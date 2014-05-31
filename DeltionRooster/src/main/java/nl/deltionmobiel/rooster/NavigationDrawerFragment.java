@@ -113,7 +113,7 @@ public class NavigationDrawerFragment extends Fragment {
                 }
 
                 if(key.equals(Config.SELECTED_WEEK)) {
-                    mDrawerCurrentWeek.setText("Week " + Session.getWeek(getActivity()));
+                    mDrawerCurrentWeek.setText("Week " + Session.getWeek());
                 }
             }
         };
@@ -209,7 +209,7 @@ public class NavigationDrawerFragment extends Fragment {
                 final TextView mDrawerCurrentGroup = (TextView) drawerView.findViewById(R.id.current_group);
                 final TextView mDrawerCurrentWeek = (TextView) drawerView.findViewById(R.id.current_week);
                 mDrawerCurrentGroup.setText(Session.getGroup(getActivity()));
-                mDrawerCurrentWeek.setText("Week " + Session.getWeek(getActivity()));
+                mDrawerCurrentWeek.setText("Week " + Session.getWeek());
 
 
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()

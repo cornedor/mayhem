@@ -53,7 +53,8 @@ public class WeekFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         Integer year = cal.get(Calendar.YEAR);
 
-        name.setText("" + (year + this.position));
+        final Integer curYear = year + this.position;
+        name.setText("" + curYear);
 
         final ListView listView = (ListView) view.findViewById(R.id.listView);
         ProgressBar pb = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -86,6 +87,7 @@ public class WeekFragment extends Fragment {
                 Integer week = Integer.decode(weekStr);
 
                 Session.setWeek(week);
+                Session.setYear(curYear);
 
                 SharedPreferences pref = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
                 SharedPreferences.Editor editor = pref.edit();

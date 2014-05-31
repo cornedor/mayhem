@@ -35,47 +35,62 @@ public class Data {
     }
 
     public void update() {
-        getData("departments.json", -1, Config.API_DEPARTMENTS);
-        getData("groups.json", -1, Config.API_GROUPS);
+        getData("departments.json", -1, Config.API_DEPARTMENTS, true);
+        getData("groups.json", -1, Config.API_GROUPS, true);
         getTimes();
     }
 
     public void getDepartments() {
-        getData("departments.json", 30, Config.API_DEPARTMENTS);
+        getData("departments.json", 30, Config.API_DEPARTMENTS, true);
     }
 
     public void getGroups() {
-        getData("groups.json", 30, Config.API_GROUPS);
+        getData("groups.json", 30, Config.API_GROUPS, true);
     }
 
     public void getTimes() {
         Integer group = Session.getGroupId(activity);
-        if(group != -1) {
-            String department = Session.getDepartment(activity);
+        for(int i = -1; i <= 1; i++)
+            if(group != -1) {
+                String department = Session.getDepartment(activity);
 
-            Calendar cal = Calendar.getInstance();
-            System.out.println("WEEK: " + Session.getWeek(activity));
-            cal.set(Calendar.WEEK_OF_YEAR, Session.getWeek(activity));
-            System.out.println(cal.getFirstDayOfWeek());
+                Calendar cal = Calendar.getInstance();
+                cal.clear();
+                cal.set(Calendar.WEEK_OF_YEAR, Session.getWeek() + i);
+                cal.set(Calendar.YEAR, Session.getYear());
+                System.out.println("Calender suggests the first day of the week is..." + cal.getTime());
+                int year = cal.get(Calendar.YEAR);
+                String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
+                String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
 
-            StringBuilder filename = new StringBuilder();
-            filename.append(department);
-            filename.append("_");
-            filename.append(group);
-            filename.append("_2014-05-12.json");
+                StringBuilder filename = new StringBuilder();
+                filename.append(department);
+                filename.append('_');
+                filename.append(group);
+                filename.append("_");
+                filename.append(year);
+                filename.append('-');
+                filename.append(month);
+                filename.append('-');
+                filename.append(day);
+                filename.append(".json");
 
-            StringBuilder url = new StringBuilder();
-            url.append(department);
-            url.append("/");
-            url.append(group);
-            url.append("/2014-05-12");
+                StringBuilder url = new StringBuilder();
+                url.append(department);
+                url.append('/');
+                url.append(group);
+                url.append('/');
+                url.append(year);
+                url.append('-');
+                url.append(month);
+                url.append('-');
+                url.append(day);
 
-            System.out.println(url + "::::" + filename);
+                System.out.println(url);
 
-
-            // getData("52_""_2014-05-12.json", -1, "52/AO3A/2014-05-12");
-            getData(filename.toString(), -1, url.toString());
-        }
+                // getData("52_""_2014-05-12.json", -1, "52/AO3A/2014-05-12");
+                getData(filename.toString(), -1, url.toString(), i == 0);
+            }
     }
 
     private static void _setCache(Object json, String type) {
@@ -85,7 +100,7 @@ public class Data {
         _cache.put(type, json);
     }
 
-    public void getData(final String filename, final int days, final String jsonUrl) {
+    public void getData(final String filename, final int days, final String jsonUrl, final boolean reportBack) {
         Object cached = null;
         if(_cache != null) {
             cached = _cache.get(jsonUrl);
@@ -104,15 +119,12 @@ public class Data {
                             if (file.lastModified() < curDate.getTime() || days == -1) {
                                 String jsonString = FileUtils.readFileToString(file);
                                 if(jsonString.length() != 0) {
-                                    if (jsonString.charAt(0) == '[') {
-                                        json = new JSONArray(jsonString);
-                                    } else {
-                                        json = new JSONObject(jsonString);
-                                    }
+                                    if (jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
+                                    else json = new JSONObject(jsonString);
 
                                     _setCache(json, jsonUrl);
                                     if (days != -1) {
-                                        dataListener.onDataLoaded(json);
+                                        if(reportBack) dataListener.onDataLoaded(json);
                                         return;
                                     }
                                 }
@@ -123,10 +135,9 @@ public class Data {
                         ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
                         if (networkInfo == null || !networkInfo.isConnected()) {
-                            if(json == null) {
-                                dataListener.noDataAvailable();
-                            } else {
-                                dataListener.onDataLoaded(json);
+                            if(reportBack) {
+                                if (json == null) dataListener.noDataAvailable();
+                                else dataListener.onDataLoaded(json);
                             }
                             return;
                         }
@@ -135,25 +146,24 @@ public class Data {
                         System.out.println(jsonString);
                         FileUtils.write(file, jsonString);
                         if(jsonString.length() == 0) {
-                            dataListener.noDataAvailable();
+                            if(reportBack) dataListener.noDataAvailable();
                             return;
                         }
-                        if(jsonString.charAt(0) == '[') {
-                            json = new JSONArray(jsonString);
-                        } else {
-                            json = new JSONObject(jsonString);
-                        }
-                        dataListener.onDataLoaded(json);
+                        if(jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
+                        else json = new JSONObject(jsonString);
+                        if(reportBack) dataListener.onDataLoaded(json);
                         _setCache(json, jsonUrl);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        if(reportBack) dataListener.noDataAvailable();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        if(reportBack) dataListener.noDataAvailable();
                     }
                 }
             }).start();
         } else {
-            dataListener.onDataLoaded(cached);
+            if(reportBack) dataListener.onDataLoaded(cached);
         }
     }
 }

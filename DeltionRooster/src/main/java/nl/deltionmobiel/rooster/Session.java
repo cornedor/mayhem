@@ -13,8 +13,9 @@ public class Session {
     private static String _department = null;
     private static Integer _groupId = null;
     private static Integer _week = null;
-    private static Boolean _selectDefault = false;
     private static Integer _currentFragment = null;
+    private static Integer _year = null;
+    private static Boolean _selectDefault = false;
 
     public static void setGroup(String group) {
         _group = group;
@@ -56,13 +57,22 @@ public class Session {
         _week = week;
     }
 
-    public static Integer getWeek(Activity activity) {
+    public static Integer getWeek() {
         if(_week == null) {
-            Calendar cal = Calendar.getInstance();
-            SharedPreferences prefs = activity.getSharedPreferences(Config.ROOSTER_PREFS, 0);
-            setWeek(prefs.getInt(Config.SELECTED_WEEK, cal.get(Calendar.WEEK_OF_YEAR)));
+            _week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         }
         return _week;
+    }
+
+    public static void setYear(Integer year) {
+        _year = year;
+    }
+
+    public static Integer getYear() {
+        if(_year == null) {
+            _year = Calendar.getInstance().get(Calendar.YEAR);
+        }
+        return _year;
     }
 
     public static void selectDefault(boolean b) {

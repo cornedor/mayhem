@@ -60,11 +60,16 @@ public class ScheduleFragment extends Fragment implements DataListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Rooster ophalen ...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                pDialog = new ProgressDialog(getActivity());
+                pDialog.setMessage("Rooster ophalen ...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(false);
+                pDialog.show();
+            }
+        });
     }
 
     @Override

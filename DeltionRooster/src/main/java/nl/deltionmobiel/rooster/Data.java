@@ -56,6 +56,7 @@ public class Data {
 
                 Calendar cal = Calendar.getInstance();
                 cal.clear();
+                cal.setFirstDayOfWeek(Calendar.MONDAY);
                 cal.set(Calendar.WEEK_OF_YEAR, Session.getWeek() + i);
                 cal.set(Calendar.YEAR, Session.getYear());
                 System.out.println("Calender suggests the first day of the week is..." + cal.getTime());
@@ -150,7 +151,14 @@ public class Data {
                             return;
                         }
                         if(jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
-                        else json = new JSONObject(jsonString);
+                        else {
+                            JSONObject j = new JSONObject(jsonString);
+                            if(j.get("error") != null) {
+                                if(reportBack) dataListener.noDataAvailable();
+                                return;
+                            }
+                            json = j;
+                        }
                         if(reportBack) dataListener.onDataLoaded(json);
                         _setCache(json, jsonUrl);
                     } catch (JSONException e) {

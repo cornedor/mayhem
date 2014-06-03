@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -29,7 +30,7 @@
         <activity
             android:name="nl.deltionmobiel.rooster.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="nl.deltionmobiel.rooster.MainActivity"  >
+            android:parentActivityName="nl.deltionmobiel.rooster.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
@@ -50,6 +51,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="SettingsActivity" />
         </activity>
+
+        <service
+            android:name="nl.deltionmobiel.rooster.CheckService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <receiver android:name="nl.deltionmobiel.rooster.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -158,7 +158,7 @@ public class Data {
                         JSONParser parser = new JSONParser();
                         String jsonString = parser.getJSONFromUrl(Config.API_URL + jsonUrl);
                         System.out.println(jsonString);
-                        if(!jsonStringFromFile.equals("") && jsonStringFromFile.equals(jsonString) || true) {
+                        if(!jsonStringFromFile.equals("") && !jsonStringFromFile.equals(jsonString)) {
                             activity.runOnUiThread(new Runnable() {
                                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                                 @Override

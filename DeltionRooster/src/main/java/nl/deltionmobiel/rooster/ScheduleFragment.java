@@ -69,7 +69,7 @@ public class ScheduleFragment extends Fragment implements DataListener {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(pDialog.isShowing()) pDialog.show();
+                if(!pDialog.isShowing()) pDialog.show();
             }
         });
     }

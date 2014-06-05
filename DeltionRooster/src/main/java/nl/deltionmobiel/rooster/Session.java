@@ -1,7 +1,9 @@
 package nl.deltionmobiel.rooster;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
@@ -21,10 +23,10 @@ public class Session {
         _group = group;
     }
 
-    public static String getGroup(Activity activity) {
+    public static String getGroup(Context context) {
         if(_group == null) {
-            SharedPreferences prefs = activity.getSharedPreferences(Config.ROOSTER_PREFS, 0);
-            setGroup(prefs.getString(Config.SELECTED_GROUP, activity.getString(R.string.no_group)));
+            SharedPreferences prefs = context.getSharedPreferences(Config.ROOSTER_PREFS, 0);
+            setGroup(prefs.getString(Config.SELECTED_GROUP, context.getString(R.string.no_group)));
         }
         return _group;
     }
@@ -33,10 +35,10 @@ public class Session {
         _department = department;
     }
 
-    public static String getDepartment(Activity activity) {
+    public static String getDepartment(Context context) {
         if(_department == null) {
-            SharedPreferences prefs = activity.getSharedPreferences(Config.ROOSTER_PREFS, 0);
-            setDepartment(prefs.getString(Config.SELECTED_DEPARTMENT, activity.getString(R.string.no_group)));
+            SharedPreferences prefs = context.getSharedPreferences(Config.ROOSTER_PREFS, 0);
+            setDepartment(prefs.getString(Config.SELECTED_DEPARTMENT, context.getString(R.string.no_group)));
         }
         return _department;
     }
@@ -45,9 +47,9 @@ public class Session {
         _groupId = id;
     }
 
-    public static Integer getGroupId(Activity activity) {
+    public static Integer getGroupId(Context context) {
         if(_groupId == null) {
-            SharedPreferences prefs = activity.getSharedPreferences(Config.ROOSTER_PREFS, 0);
+            SharedPreferences prefs = context.getSharedPreferences(Config.ROOSTER_PREFS, 0);
             setGroupId(prefs.getInt(Config.SELECTED_GROUP_ID, -1));
         }
         return _groupId;

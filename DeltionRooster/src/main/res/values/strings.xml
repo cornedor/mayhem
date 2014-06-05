@@ -35,5 +35,7 @@ De Deltion Rooster applicatie is in overleg met Deltion ontwikkelt maar staat we
     <string name="offline_message">We kunnen geen verbinding maken met het internet. Eerder opgeslagen content wordt nu weergegeven.</string>
     <string name="offline_fail_message">Er zijn geen lessen gevonden in de week en/of klas die jij hebt opgegeven. Of er is iets niet goed gegaan op de Deltion Rooster Website.</string>
     <string name="offline_fail_title">Geen rooster met deze gegevens.</string>
+    <string name="notification_title">Rooster Wijziging</string>
+    <string name="notification">Er is een roosterwijziging gevonden.</string>
 
 </resources>

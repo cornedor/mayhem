@@ -134,8 +134,14 @@ public class Data {
                                 jsonStringFromFile = FileUtils.readFileToString(file);
                                 if(jsonStringFromFile.length() != 0) {
                                     if (jsonStringFromFile.charAt(0) == '[') json = new JSONArray(jsonStringFromFile);
-                                    else json = new JSONObject(jsonStringFromFile);
-
+                                    else {
+                                        JSONObject j = new JSONObject(jsonStringFromFile);
+                                        if(j.has("error")) {
+                                            if(reportBack) dataListener.noDataAvailable();
+                                            return;
+                                        }
+                                        json = j;
+                                    }
                                     _setCache(json, jsonUrl);
                                     if (days != -1) {
                                         if(reportBack) dataListener.onDataLoaded(json);
@@ -189,6 +195,7 @@ public class Data {
                         if(jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
                         else {
                             JSONObject j = new JSONObject(jsonString);
+                            System.out.println(j.has("error"));
                             if(j.has("error")) {
                                 if(reportBack) dataListener.noDataAvailable();
                                 return;
@@ -207,6 +214,7 @@ public class Data {
                 }
             }).start();
         } else {
+            System.out.println("Cached::::::::::::::::::::;" + cached);
             if(reportBack) dataListener.onDataLoaded(cached);
         }
     }

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,7 +14,7 @@ import android.widget.TextView;
  */
 public class Time extends RelativeLayout implements View.OnTouchListener, View.OnClickListener, View.OnFocusChangeListener {
 
-    private TextView teacher, room, teacher2, room2;
+    private TextView teacher, room;
 
     public Time(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,7 +34,7 @@ public class Time extends RelativeLayout implements View.OnTouchListener, View.O
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             setBackgroundColor(getResources().getColor(R.color.item_hover));
         } else {
             setBackgroundColor(getResources().getColor(android.R.color.white));
@@ -45,7 +44,7 @@ public class Time extends RelativeLayout implements View.OnTouchListener, View.O
 
     @Override
     public void onClick(View view) {
-        if(teacher.getVisibility() == GONE) {
+        if (teacher.getVisibility() == GONE) {
             teacher.setVisibility(VISIBLE);
             room.setVisibility(VISIBLE);
         } else {
@@ -56,8 +55,7 @@ public class Time extends RelativeLayout implements View.OnTouchListener, View.O
 
     @Override
     public void onFocusChange(View view, boolean b) {
-        Log.wtf("WTF!!!", b + "");
-        if(!b) {
+        if (!b) {
             teacher.setVisibility(GONE);
             room.setVisibility(GONE);
         } else {

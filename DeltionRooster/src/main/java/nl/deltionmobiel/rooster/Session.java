@@ -1,9 +1,7 @@
 package nl.deltionmobiel.rooster;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
@@ -24,7 +22,7 @@ public class Session {
     }
 
     public static String getGroup(Context context) {
-        if(_group == null) {
+        if (_group == null) {
             SharedPreferences prefs = context.getSharedPreferences(Config.ROOSTER_PREFS, 0);
             setGroup(prefs.getString(Config.SELECTED_GROUP, context.getString(R.string.no_group)));
         }
@@ -36,7 +34,7 @@ public class Session {
     }
 
     public static String getDepartment(Context context) {
-        if(_department == null) {
+        if (_department == null) {
             SharedPreferences prefs = context.getSharedPreferences(Config.ROOSTER_PREFS, 0);
             setDepartment(prefs.getString(Config.SELECTED_DEPARTMENT, context.getString(R.string.no_group)));
         }
@@ -48,7 +46,7 @@ public class Session {
     }
 
     public static Integer getGroupId(Context context) {
-        if(_groupId == null) {
+        if (_groupId == null) {
             SharedPreferences prefs = context.getSharedPreferences(Config.ROOSTER_PREFS, 0);
             setGroupId(prefs.getInt(Config.SELECTED_GROUP_ID, -1));
         }
@@ -60,7 +58,7 @@ public class Session {
     }
 
     public static Integer getWeek() {
-        if(_week == null) {
+        if (_week == null) {
             _week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         }
         return _week;
@@ -71,13 +69,13 @@ public class Session {
     }
 
     public static Integer getYear() {
-        if(_year == null) {
+        if (_year == null) {
             _year = Calendar.getInstance().get(Calendar.YEAR);
         }
         return _year;
     }
 
-    public static void selectDefault(boolean b) {
+    public static void selectDefault(Boolean b) {
         _selectDefault = b;
     }
 

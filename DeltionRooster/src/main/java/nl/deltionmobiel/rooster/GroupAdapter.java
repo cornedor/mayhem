@@ -14,8 +14,8 @@ import org.json.JSONObject;
  */
 public class GroupAdapter extends FragmentPagerAdapter {
 
-    Context context;
-    JSONObject json;
+    private Context context;
+    private JSONObject json;
 
     public GroupAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -23,10 +23,21 @@ public class GroupAdapter extends FragmentPagerAdapter {
         this.context = context;
     }
 
+    /**
+     * Set the json with departments and classes
+     *
+     * @param json the json with departments and classes
+     */
     public void setJson(JSONObject json) {
         this.json = json;
     }
 
+    /**
+     * Get a fragment for a department filled with classes
+     *
+     * @param position the department position
+     * @return the DepartmentFragment
+     */
     @Override
     public Fragment getItem(int position) {
         // DepartmentFragment frag = new DepartmentFragment(position);

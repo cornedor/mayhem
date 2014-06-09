@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +16,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,14 +26,13 @@ import java.util.List;
 
 
 /**
-* A simple {@link android.support.v4.app.Fragment} subclass.
-* Activities that contain this fragment must implement the
-* {@link DepartmentFragment.OnFragmentInteractionListener} interface
-* to handle interaction events.
-* Use the {@link DepartmentFragment#newInstance} factory method to
-* create an instance of this fragment.
-*
-*/
+ * A simple {@link android.support.v4.app.Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link DepartmentFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link DepartmentFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class DepartmentFragment extends Fragment implements DataListener {
 
     private OnFragmentInteractionListener mListener;
@@ -90,13 +83,6 @@ public class DepartmentFragment extends Fragment implements DataListener {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -118,7 +104,9 @@ public class DepartmentFragment extends Fragment implements DataListener {
         this.position = position;
     }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public void onDataLoaded(Object out) {
@@ -146,7 +134,7 @@ public class DepartmentFragment extends Fragment implements DataListener {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            if(Session.selectDefault()) {
+                            if (Session.selectDefault()) {
                                 SharedPreferences pref = getActivity().getSharedPreferences(Config.ROOSTER_PREFS, 0);
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putString(Config.SELECTED_GROUP, adapter.getItem(i));
@@ -159,9 +147,9 @@ public class DepartmentFragment extends Fragment implements DataListener {
                             Session.setGroup(adapter.getItem(i));
                             Session.setDepartment(jsonName);
 
-                            for(int j = 0; j < listView.getCount(); j++) {
+                            for (int j = 0; j < listView.getCount(); j++) {
                                 View v = listView.getChildAt(j);
-                                if(v == null) continue;
+                                if (v == null) continue;
                                 TextView tv = (TextView) v.findViewById(android.R.id.text1);
                                 tv.setTypeface(null, Typeface.NORMAL);
                             }
@@ -199,30 +187,18 @@ public class DepartmentFragment extends Fragment implements DataListener {
         this.jsonName = jsonName;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
     }
 
     private class GroupArrayAdapter extends ArrayAdapter<String> {
 
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        Context context;
+        private HashMap<String, Integer> map = new HashMap<String, Integer>();
+        private Context context;
 
         public GroupArrayAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
             this.context = context;
-            for(int i = 0; i < objects.size(); i++) {
+            for (int i = 0; i < objects.size(); i++) {
                 map.put(objects.get(i), i);
             }
         }
@@ -240,18 +216,14 @@ public class DepartmentFragment extends Fragment implements DataListener {
 
             String currentGroup = Session.getGroup(getActivity());
 
-            if(map.containsKey(currentGroup) && map.get(currentGroup) == position)
+            if (map.containsKey(currentGroup) && map.get(currentGroup) == position)
                 textView.setTypeface(null, Typeface.BOLD);
 
-            // if(convertView != null && map.get(Session.getGroup(getActivity())) == position)
-            //     ((TextView) convertView.findViewById(android.R.id.text1)).setTypeface(null, Typeface.BOLD);
             return super.getView(position, textView, parent);
         }
 
         @Override
         public String getItem(int position) {
-
-            // return Html.fromHtml("<b>BOLD</b>").toString();
             return super.getItem(position);
         }
     }

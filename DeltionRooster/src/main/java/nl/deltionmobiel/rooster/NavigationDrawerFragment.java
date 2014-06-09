@@ -1,17 +1,15 @@
 package nl.deltionmobiel.rooster;
 
-;
-import android.app.Activity;
 import android.app.ActionBar;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,10 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -92,7 +91,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         LinearLayout mDrawer = (LinearLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
@@ -108,11 +107,11 @@ public class NavigationDrawerFragment extends Fragment {
         prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if(key.equals(Config.SELECTED_GROUP)) {
+                if (key.equals(Config.SELECTED_GROUP)) {
                     mDrawerCurrentGroup.setText(sharedPreferences.getString(key, getString(R.string.no_group)));
                 }
 
-                if(key.equals(Config.SELECTED_WEEK)) {
+                if (key.equals(Config.SELECTED_WEEK)) {
                     mDrawerCurrentWeek.setText("Week " + Session.getWeek());
                 }
             }
@@ -123,7 +122,6 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerCurrentWeek.setText("Week " + selectedWeek);
 
         mDrawerCurrentGroup.setText(selectedGroup);
-
 
 
         mDrawerListView = (ListView) mDrawer.findViewById(R.id.listView);
@@ -144,7 +142,8 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.select_class),
                         getString(R.string.today),
                         getString(R.string.action_settings)
-                }));
+                }
+        ));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawer;
     }

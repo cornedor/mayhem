@@ -3,7 +3,6 @@ package nl.deltionmobiel.rooster;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,8 @@ import org.json.JSONObject;
 
 
 public class DepartmentsFragment extends Fragment implements DataListener {
-    View view;
+    private View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -24,6 +24,12 @@ public class DepartmentsFragment extends Fragment implements DataListener {
         return view;
     }
 
+    /**
+     * Load a list with departments and feed that to the GroupAdapter which will load the
+     * DepartmentFragment's into the DepartmentsFragment
+     *
+     * @param out JSON with list of departments and classes
+     */
     @Override
     public void onDataLoaded(Object out) {
         final JSONObject json = (JSONObject) out;

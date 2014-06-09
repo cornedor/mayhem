@@ -4,12 +4,11 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.widget.ListView;
 
 /**
  * Created by corne on 20-5-14.
  */
-public class YearAdapter extends FragmentPagerAdapter{
+public class YearAdapter extends FragmentPagerAdapter {
     Context context;
 
     public YearAdapter(Context context, FragmentManager fm) {

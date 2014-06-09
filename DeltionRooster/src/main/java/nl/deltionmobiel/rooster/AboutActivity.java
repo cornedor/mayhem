@@ -1,26 +1,14 @@
 package nl.deltionmobiel.rooster;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +45,8 @@ public class AboutActivity extends Activity implements Runnable {
 
         path = new Path();
         path.moveTo(0, 150);
-        for(int i = 0; i < 120; i++) {
-            path.lineTo(i * 10, 150 + (float) (Math.sin(i/10f) * 50f));
+        for (int i = 0; i < 120; i++) {
+            path.lineTo(i * 10, 150 + (float) (Math.sin(i / 10f) * 50f));
         }
 
         logo = getResources().getDrawable(R.drawable.shb);
@@ -74,14 +62,14 @@ public class AboutActivity extends Activity implements Runnable {
 
     @Override
     public void run() {
-        while(true) {
-            if(!holder.getSurface().isValid()){
+        while (true) {
+            if (!holder.getSurface().isValid()) {
                 continue;
             }
 
             Canvas canvas = holder.lockCanvas();
 
-            if(canvas != null) {
+            if (canvas != null) {
                 frame += 5;
 
                 // clear canvas
@@ -94,24 +82,24 @@ public class AboutActivity extends Activity implements Runnable {
                 p.setColor(0xFFFFFFFF);
                 List<Star> trashcan = new ArrayList<Star>();
 
-                for(int i = 0; i < stars.size(); i++) {
+                for (int i = 0; i < stars.size(); i++) {
                     Star star = stars.get(i);
                     star.update();
                     p.setAlpha((int) (star.radius * 100 > 200 ? 200 : star.radius * 50));
                     canvas.drawCircle((float) star.x, (float) star.y, (float) star.radius, p);
-                    if(star.x < 0 || star.x > canvas.getWidth() || star.y < 0 || star.y > canvas.getHeight()) {
+                    if (star.x < 0 || star.x > canvas.getWidth() || star.y < 0 || star.y > canvas.getHeight()) {
                         trashcan.add(star);
                     }
                 }
 
-                for(int i = 0; i < trashcan.size(); i++) {
+                for (int i = 0; i < trashcan.size(); i++) {
                     stars.remove(trashcan.get(i));
                 }
 
                 // render text
 
                 p.setColor(0xFFFFFFFF);
-                int offset = Math.round(frame/50) % (text.length() - 17);
+                int offset = Math.round(frame / 50) % (text.length() - 17);
                 String stext = text.substring(offset, offset + 17);
                 canvas.drawTextOnPath(stext, path, -(frame % 50), 40, p);
 
@@ -119,8 +107,8 @@ public class AboutActivity extends Activity implements Runnable {
 
                 canvas.save();
 
-                canvas.translate((canvas.getWidth()/2) - (logo.getIntrinsicWidth()/2), (canvas.getHeight()/2) - (logo.getIntrinsicHeight()/2));
-                canvas.scale((float) (1.0 + (Math.sin(frame/160f)/2)), (float) (1.0 + (Math.cos(frame / 160f)/2)), (logo.getIntrinsicWidth()/2), (logo.getIntrinsicHeight()/2));
+                canvas.translate((canvas.getWidth() / 2) - (logo.getIntrinsicWidth() / 2), (canvas.getHeight() / 2) - (logo.getIntrinsicHeight() / 2));
+                canvas.scale((float) (1.0 + (Math.sin(frame / 160f) / 2)), (float) (1.0 + (Math.cos(frame / 160f) / 2)), (logo.getIntrinsicWidth() / 2), (logo.getIntrinsicHeight() / 2));
 
                 logo.draw(canvas);
                 canvas.restore();
@@ -135,6 +123,7 @@ public class AboutActivity extends Activity implements Runnable {
         public double radius = 0;
         private double speedX = 0;
         private double speedY = 0;
+
         Star(double x, double y) {
             this.x = x;
             this.y = y;

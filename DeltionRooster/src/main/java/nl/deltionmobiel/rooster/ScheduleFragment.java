@@ -4,15 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +24,6 @@ import org.json.JSONObject;
  * to handle interaction events.
  * Use the {@link ScheduleFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class ScheduleFragment extends Fragment implements DataListener {
 
@@ -53,6 +48,7 @@ public class ScheduleFragment extends Fragment implements DataListener {
 
         return fragment;
     }
+
     public ScheduleFragment() {
         // Required empty public constructor
     }
@@ -69,7 +65,7 @@ public class ScheduleFragment extends Fragment implements DataListener {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(!pDialog.isShowing()) pDialog.show();
+                if (!pDialog.isShowing()) pDialog.show();
             }
         });
     }
@@ -85,13 +81,6 @@ public class ScheduleFragment extends Fragment implements DataListener {
         new Data(this, getActivity()).getTimes();
 
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -126,12 +115,12 @@ public class ScheduleFragment extends Fragment implements DataListener {
             @Override
             public void run() {
                 try {
-                    for(int i = 0; i < json.length(); i++) {
+                    for (int i = 0; i < json.length(); i++) {
                         Card card = new Card(v.getContext(), null);
                         LinearLayout cardLinearLayout = (LinearLayout) card.findViewById(R.id.container);
                         JSONArray times = json.getJSONObject(i).getJSONArray("items");
 
-                        for(int j = 0; j < times.length(); j++) {
+                        for (int j = 0; j < times.length(); j++) {
                             JSONObject curTime = times.getJSONObject(j);
                             Time time = new Time(v.getContext(), null);
                             time.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -186,15 +175,16 @@ public class ScheduleFragment extends Fragment implements DataListener {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                pDialog.dismiss();
-
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.offline_fail_title))
-                        .setMessage(getString(R.string.offline_fail_message))
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {}
-                        })
-                        .show();
+                if (pDialog != null && pDialog.isShowing()) pDialog.dismiss();
+                if (getActivity() != null)
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle(getString(R.string.offline_fail_title))
+                            .setMessage(getString(R.string.offline_fail_message))
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
             }
         });
 
@@ -205,14 +195,12 @@ public class ScheduleFragment extends Fragment implements DataListener {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     *
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
     }
 
 }

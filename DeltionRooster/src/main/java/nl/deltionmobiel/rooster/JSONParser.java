@@ -12,17 +12,15 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * Created by koen on 1/30/14.
- *
  * Json parsing class
  */
 public class JSONParser {
 
     /**
-     *
      * @param url
      * @return string json
      */
-    public String getJSONFromUrl(String url) {
+    public static String getJSONFromUrl(String url) {
         String json = null;
 
         try {

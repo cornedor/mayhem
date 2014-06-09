@@ -74,7 +74,7 @@ public class WeekFragment extends Fragment {
         lastWeekCal.setMinimalDaysInFirstWeek(7);
         lastWeekCal.setTime(lastDay);
 
-        for(int i = 0; i < lastWeekCal.get(Calendar.WEEK_OF_YEAR); i++) {
+        for (int i = 0; i < lastWeekCal.get(Calendar.WEEK_OF_YEAR); i++) {
             adapter.add("Week " + (i + 1));
         }
 
@@ -95,9 +95,9 @@ public class WeekFragment extends Fragment {
                 editor.putInt(Config.SELECTED_WEEK, week);
                 editor.commit();
 
-                for(int j = 0; j < listView.getCount(); j++) {
+                for (int j = 0; j < listView.getCount(); j++) {
                     View v = listView.getChildAt(j);
-                    if(v == null) continue;
+                    if (v == null) continue;
                     TextView tv = (TextView) v.findViewById(android.R.id.text1);
                     tv.setTypeface(null, Typeface.NORMAL);
                 }

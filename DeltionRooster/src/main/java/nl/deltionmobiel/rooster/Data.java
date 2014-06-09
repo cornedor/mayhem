@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.jar.JarOutputStream;
 
 /**
  * Created by corne on 4/15/14.
@@ -62,8 +60,8 @@ public class Data {
     public void getTimes() {
         Context c = context == null ? activity.getApplicationContext() : context;
         Integer group = Session.getGroupId(c);
-        for(int i = -1; i <= 1; i++)
-            if(group != -1) {
+        for (int i = -1; i <= 1; i++)
+            if (group != -1) {
                 String department = Session.getDepartment(c);
 
                 Calendar cal = Calendar.getInstance();
@@ -71,7 +69,6 @@ public class Data {
                 cal.setFirstDayOfWeek(Calendar.MONDAY);
                 cal.set(Calendar.WEEK_OF_YEAR, Session.getWeek() + i);
                 cal.set(Calendar.YEAR, Session.getYear());
-                System.out.println("Calender suggests the first day of the week is..." + cal.getTime());
                 int year = cal.get(Calendar.YEAR);
                 String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
                 String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
@@ -99,27 +96,25 @@ public class Data {
                 url.append('-');
                 url.append(day);
 
-                System.out.println(url);
-
                 // getData("52_""_2014-05-12.json", -1, "52/AO3A/2014-05-12");
                 getData(filename.toString(), -1, url.toString(), i == 0);
             }
     }
 
     private static void _setCache(Object json, String type) {
-        if(_cache == null) {
+        if (_cache == null) {
             _cache = new HashMap<String, Object>();
         }
         _cache.put(type, json);
     }
 
-    public void getData(final String filename, final int days, final String jsonUrl, final boolean reportBack) {
+    private void getData(final String filename, final int days, final String jsonUrl, final boolean reportBack) {
         Object cached = null;
-        if(_cache != null) {
+        if (_cache != null) {
             cached = _cache.get(jsonUrl);
         }
 
-        if(cached == null) {
+        if (cached == null) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -132,19 +127,20 @@ public class Data {
                             curDate.setTime(curDate.getTime() - (days * 1000 * 60 * 60 * 24));
                             if (file.lastModified() < curDate.getTime() || days == -1) {
                                 jsonStringFromFile = FileUtils.readFileToString(file);
-                                if(jsonStringFromFile.length() != 0) {
-                                    if (jsonStringFromFile.charAt(0) == '[') json = new JSONArray(jsonStringFromFile);
+                                if (jsonStringFromFile.length() != 0) {
+                                    if (jsonStringFromFile.charAt(0) == '[')
+                                        json = new JSONArray(jsonStringFromFile);
                                     else {
                                         JSONObject j = new JSONObject(jsonStringFromFile);
-                                        if(j.has("error")) {
-                                            if(reportBack) dataListener.noDataAvailable();
+                                        if (j.has("error")) {
+                                            if (reportBack) dataListener.noDataAvailable();
                                             return;
                                         }
                                         json = j;
                                     }
                                     _setCache(json, jsonUrl);
                                     if (days != -1) {
-                                        if(reportBack) dataListener.onDataLoaded(json);
+                                        if (reportBack) dataListener.onDataLoaded(json);
                                         return;
                                     }
                                 }
@@ -155,23 +151,21 @@ public class Data {
                         ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
                         if (networkInfo == null || !networkInfo.isConnected()) {
-                            if(reportBack) {
+                            if (reportBack) {
                                 if (json == null) dataListener.noDataAvailable();
                                 else dataListener.onDataLoaded(json);
                             }
                             return;
                         }
-                        JSONParser parser = new JSONParser();
-                        String jsonString = parser.getJSONFromUrl(Config.API_URL + jsonUrl);
-                        System.out.println(jsonString);
-                        if(!jsonStringFromFile.equals("") && !jsonStringFromFile.equals(jsonString)) {
+                        String jsonString = JSONParser.getJSONFromUrl(Config.API_URL + jsonUrl);
+                        if (!jsonStringFromFile.equals("") && !jsonStringFromFile.equals(jsonString)) {
                             activity.runOnUiThread(new Runnable() {
                                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                                 @Override
                                 public void run() {
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(),
-                                        0, intent, 0);
+                                            0, intent, 0);
 
                                     Notification.Builder n = new Notification.Builder(activity)
                                             .setContentTitle(activity.getString(R.string.notification_title))
@@ -188,34 +182,32 @@ public class Data {
                             });
                         }
                         FileUtils.write(file, jsonString);
-                        if(jsonString.length() == 0) {
-                            if(reportBack) dataListener.noDataAvailable();
+                        if (jsonString.length() == 0) {
+                            if (reportBack) dataListener.noDataAvailable();
                             return;
                         }
-                        if(jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
+                        if (jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
                         else {
                             JSONObject j = new JSONObject(jsonString);
-                            System.out.println(j.has("error"));
-                            if(j.has("error")) {
-                                if(reportBack) dataListener.noDataAvailable();
+                            if (j.has("error")) {
+                                if (reportBack) dataListener.noDataAvailable();
                                 return;
                             }
                             json = j;
                         }
-                        if(reportBack) dataListener.onDataLoaded(json);
+                        if (reportBack) dataListener.onDataLoaded(json);
                         _setCache(json, jsonUrl);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        if(reportBack) dataListener.noDataAvailable();
+                        if (reportBack) dataListener.noDataAvailable();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        if(reportBack) dataListener.noDataAvailable();
+                        if (reportBack) dataListener.noDataAvailable();
                     }
                 }
             }).start();
         } else {
-            System.out.println("Cached::::::::::::::::::::;" + cached);
-            if(reportBack) dataListener.onDataLoaded(cached);
+            if (reportBack) dataListener.onDataLoaded(cached);
         }
     }
 }

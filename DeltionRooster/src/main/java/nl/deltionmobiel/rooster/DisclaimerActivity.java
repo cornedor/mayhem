@@ -1,19 +1,11 @@
 package nl.deltionmobiel.rooster;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class DisclaimerActivity extends Activity {
 
@@ -39,7 +31,7 @@ public class DisclaimerActivity extends Activity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_disclaimer, container, false);
 
             return rootView;

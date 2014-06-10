@@ -101,8 +101,8 @@ public class MainActivity extends FragmentActivity
                         .commit();
                 break;
             case 3:
-                Calendar now = Calendar.getInstance();
-                Session.setWeek(now.get(Calendar.WEEK_OF_YEAR));
+                Session.setWeek(null);
+                Session.setYear(null);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, ScheduleFragment.newInstance())
                         .commit();

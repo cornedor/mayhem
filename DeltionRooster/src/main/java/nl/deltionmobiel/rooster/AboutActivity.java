@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +26,15 @@ public class AboutActivity extends Activity implements Runnable {
     Drawable logo;
     String text = "### Koen Hendriks & Corné Dorrestijn proudly present you.... Deltion Rooster App!!! ###";
     int frame = 0;
+    int touchCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+    }
 
+    private void startAnim() {
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         holder = surfaceView.getHolder();
 
@@ -58,6 +63,16 @@ public class AboutActivity extends Activity implements Runnable {
         stars = new ArrayList<Star>();
 
         thread.start();
+    }
+
+    public void easterEggClick(View view) {
+        System.out.println("Hello World!");
+        touchCount++;
+        if(touchCount == 3) {
+            startAnim();
+            view.setVisibility(View.GONE);
+            surfaceView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

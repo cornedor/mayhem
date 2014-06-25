@@ -182,7 +182,7 @@ public class Data {
                             });
                         }
                         FileUtils.write(file, jsonString);
-                        if (jsonString.length() == 0) {
+                        if (jsonString == null || jsonString.length() == 0) {
                             if (reportBack) dataListener.noDataAvailable();
                             return;
                         }

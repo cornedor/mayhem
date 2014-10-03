@@ -9,4 +9,10 @@
     <string name="pref_default_class">Standaard Klas</string>
     <string name="pref_about">About</string>
     <string name="pref_license">Juridische informatie</string>
+    <string name="pref_reset">Volledige refresh</string>
+    <string name="reset_alert_title">Volledige refresh</string>
+    <string name="reset_alert_message">Hiermee worden alle gegevens van de app weggegooid en opnieuw ingeladen. Je huidige offline roosters worden ook verwijderd. Weet je zeker dat je dit wilt doen?</string>
+    <string name="reset_dialog_message">Bezig met herladen...</string>
+    <string name="reset_complete">Volledige refresh gelukt!</string>
+
 </resources>

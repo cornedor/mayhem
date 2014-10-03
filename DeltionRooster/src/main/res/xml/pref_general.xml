@@ -27,5 +27,12 @@
         android:enabled="true">
     </Preference>
 
+    <Preference
+        android:title="@string/pref_reset"
+        android:summary="Als je jouw afdeling of klas niet ziet staan, probeer dit dan"
+        android:key="reset"
+        android:enabled="true">
+    </Preference>
+
 
 </PreferenceScreen>

@@ -1,17 +1,27 @@
 package nl.deltionmobiel.rooster;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Path;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,9 +68,11 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref_general);
         Preference about = (Preference) findPreference("about");
         Preference license = (Preference) findPreference("license");
+        Preference reset = (Preference) findPreference("reset");
         final Preference defaultGroup = (Preference) findPreference("Standaard Klas");
         assert about != null;
         assert license != null;
+        assert reset != null;
         assert defaultGroup != null;
 
         defaultGroup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -93,6 +105,60 @@ public class SettingsActivity extends PreferenceActivity {
             public boolean onPreferenceClick(Preference preference) {
                 Intent licenseIntent = new Intent(getApplicationContext(), DisclaimerActivity.class);
                 startActivity(licenseIntent);
+
+                return false;
+            }
+        });
+
+        reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(SettingsActivity.this);
+
+                alert.setTitle(getString(R.string.reset_alert_title));
+                alert.setMessage(getString(R.string.reset_alert_message));
+
+                alert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        ProgressDialog pDialog = new ProgressDialog(SettingsActivity.this);
+                        pDialog.setMessage(getString(R.string.reset_dialog_message));
+                        pDialog.setCancelable(false);
+                        pDialog.show();
+
+                        String cacheDir = Environment.getExternalStorageDirectory()+"/.deltionroosterapp/";
+
+                        File directory = new File(cacheDir);
+                        File[] files = directory.listFiles();
+                        for (int i = 0; i < files.length; ++i) {
+                            File file = new File(files[i].getAbsolutePath());
+                            boolean deleted = file.delete();
+                            Log.w("","file: "+files[i].getAbsolutePath()+" Deleted: "+deleted);
+                        }
+
+                        pDialog.hide();
+
+                        AlertDialog.Builder alert = new AlertDialog.Builder(SettingsActivity.this);
+                        alert.setMessage(getString(R.string.reset_complete));
+                        alert.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(mainIntent);
+                            }
+                        });
+                        alert.show();
+
+                    }
+                });
+
+                alert.setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+
+                alert.show();
 
                 return false;
             }

@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
@@ -120,113 +121,107 @@ public class Data {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if(dataListener != null) {
-                        try {
-                            Object json = null;
-                            String jsonStringFromFile = "";
-                            File file = new File(Environment.getExternalStorageDirectory() + "/.deltionroosterapp/" + filename);
-                            if (file.exists()) {
-                                Date curDate = new Date();
-                                curDate.setTime(curDate.getTime() - (days * 1000 * 60 * 60 * 24));
-                                if (file.lastModified() < curDate.getTime() || days == -1) {
-                                    jsonStringFromFile = FileUtils.readFileToString(file);
-                                    if (jsonStringFromFile.length() != 0) {
+                    boolean bReportBack = reportBack;
+                    if(dataListener == null) bReportBack = false;
+                    try {
+                        Object json = null;
+                        String jsonStringFromFile = "";
+                        File file = new File(Environment.getExternalStorageDirectory() + "/.deltionroosterapp/" + filename);
+                        if (file.exists()) {
+                            Date curDate = new Date();
+                            // current time - days available
+                            curDate.setTime(curDate.getTime() - (days * 1000 * 60 * 60 * 24));
+                            if (file.lastModified() < curDate.getTime() || days == -1) {
+                                jsonStringFromFile = FileUtils.readFileToString(file);
+                                if (jsonStringFromFile.length() != 0) {
+                                    try {
                                         if (jsonStringFromFile.charAt(0) == '[')
                                             json = new JSONArray(jsonStringFromFile);
-                                        else {
+                                        else if (jsonStringFromFile.charAt(0) == '{') {
                                             JSONObject j = new JSONObject(jsonStringFromFile);
                                             if (j.has("error")) {
-                                                if (reportBack) dataListener.noDataAvailable();
+                                                if (bReportBack) dataListener.noDataAvailable();
                                                 return;
                                             }
                                             json = j;
-                                        }
-                                        _setCache(json, jsonUrl);
-                                        if (days != -1) {
-                                            if (reportBack) dataListener.onDataLoaded(json);
+                                        } else if(bReportBack && days != -1) {
+                                            Log.w("DeltionRoosterApp", "no valid data!");
+                                            dataListener.noDataAvailable();
                                             return;
                                         }
+                                        _setCache(json, jsonUrl);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (days != -1) {
+                                        if (bReportBack) dataListener.onDataLoaded(json);
+                                        return;
                                     }
                                 }
                             }
-
-                            // check internet connectivity
-                            ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-                            NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
-                            if (networkInfo == null || !networkInfo.isConnected()) {
-                                if (reportBack) {
-                                    if (json == null) dataListener.noDataAvailable();
-                                    else dataListener.onDataLoaded(json);
-                                }
-                                return;
-                            }
-                            String jsonString = JSONParser.getJSONFromUrl(Config.API_URL + jsonUrl);
-                            if (!jsonStringFromFile.equals("") && !jsonStringFromFile.equals(jsonString)) {
-                                activity.runOnUiThread(new Runnable() {
-                                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                                    @Override
-                                    public void run() {
-                                        Intent intent = new Intent(activity, MainActivity.class);
-                                        PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(),
-                                                0, intent, 0);
-
-                                        Notification.Builder n = new Notification.Builder(activity)
-                                                .setContentTitle(activity.getString(R.string.notification_title))
-                                                .setContentText(activity.getString(R.string.notification))
-                                                .setSmallIcon(android.R.drawable.stat_sys_warning)
-                                                .setAutoCancel(true)
-                                                .setContentIntent(pendingIntent);
-
-                                        NotificationManager notificationManager =
-                                                (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                                        notificationManager.notify(0, Build.VERSION.SDK_INT < 16 ? n.getNotification() : n.build());
-                                    }
-                                });
-                            }
-                            FileUtils.write(file, jsonString);
-                            if (jsonString == null || jsonString.length() == 0) {
-                                if (reportBack) dataListener.noDataAvailable();
-                                return;
-                            }
-                            if (jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
-                            else {
-                                JSONObject j = new JSONObject(jsonString);
-                                if (j.has("error")) {
-                                    if (reportBack) dataListener.noDataAvailable();
-                                    return;
-                                }
-                                json = j;
-                            }
-                            if (reportBack) dataListener.onDataLoaded(json);
-                            _setCache(json, jsonUrl);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            if (reportBack) dataListener.noDataAvailable();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            if (reportBack) dataListener.noDataAvailable();
                         }
-                    }else{
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialog.Builder(activity)
-                                        .setTitle(activity.getString(R.string.offline_message_title))
-                                        .setMessage(activity.getString(R.string.offline_message))
-                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        })
-                                        .setIcon(R.drawable.ic_action_network_wifi_fail)
-                                        .show();
+
+                        // check internet connectivity
+                        ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
+                        if (networkInfo == null || !networkInfo.isConnected()) {
+                            if (bReportBack) {
+                                if (json == null) dataListener.noDataAvailable();
+                                else dataListener.onDataLoaded(json);
                             }
-                        });
+                            return;
+                        }
+                        String jsonString = JSONParser.getJSONFromUrl(Config.API_URL + jsonUrl);
+                        if (!jsonStringFromFile.equals("") && !jsonStringFromFile.equals(jsonString)) {
+                            activity.runOnUiThread(new Runnable() {
+                                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(activity, MainActivity.class);
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(),
+                                            0, intent, 0);
+
+                                    Notification.Builder n = new Notification.Builder(activity)
+                                            .setContentTitle(activity.getString(R.string.notification_title))
+                                            .setContentText(activity.getString(R.string.notification))
+                                            .setSmallIcon(android.R.drawable.stat_sys_warning)
+                                            .setAutoCancel(true)
+                                            .setContentIntent(pendingIntent);
+
+                                    NotificationManager notificationManager =
+                                            (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                    notificationManager.notify(0, Build.VERSION.SDK_INT < 16 ? n.getNotification() : n.build());
+                                }
+                            });
+                        }
+                        FileUtils.write(file, jsonString);
+                        if (jsonString == null || jsonString.length() == 0) {
+                            if (bReportBack) dataListener.noDataAvailable();
+                            return;
+                        }
+                        if (jsonString.charAt(0) == '[') json = new JSONArray(jsonString);
+                        else {
+                            JSONObject j = new JSONObject(jsonString);
+                            if (j.has("error")) {
+                                if (bReportBack) dataListener.noDataAvailable();
+                                return;
+                            }
+                            json = j;
+                        }
+                        if (bReportBack) dataListener.onDataLoaded(json);
+                        _setCache(json, jsonUrl);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        if (bReportBack) dataListener.noDataAvailable();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        if (bReportBack) dataListener.noDataAvailable();
                     }
                 }
             }).start();
         } else {
-            if (reportBack) dataListener.onDataLoaded(cached);
+            if (reportBack && dataListener != null) dataListener.onDataLoaded(cached);
         }
     }
 }

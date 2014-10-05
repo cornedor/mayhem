@@ -121,7 +121,7 @@ public class SettingsActivity extends PreferenceActivity {
                 alert.setTitle(getString(R.string.reset_alert_title));
                 alert.setMessage(getString(R.string.reset_alert_message));
 
-                alert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         ProgressDialog pDialog = new ProgressDialog(SettingsActivity.this);
                         pDialog.setMessage(getString(R.string.reset_dialog_message));
@@ -142,7 +142,7 @@ public class SettingsActivity extends PreferenceActivity {
 
                         AlertDialog.Builder alert = new AlertDialog.Builder(SettingsActivity.this);
                         alert.setMessage(getString(R.string.reset_complete));
-                        alert.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+                        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(mainIntent);
@@ -153,7 +153,7 @@ public class SettingsActivity extends PreferenceActivity {
                     }
                 });
 
-                alert.setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 });

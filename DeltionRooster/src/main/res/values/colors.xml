@@ -2,4 +2,6 @@
 <resources>
     <color name="separator">#e5e5e5</color>
     <color name="item_hover">#f8f8f8</color>
+    <color name="toolbar">#03a9f4</color>
+    <color name="highlighted">#0000FF</color>
 </resources>

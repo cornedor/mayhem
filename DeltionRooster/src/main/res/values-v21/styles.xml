@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="android:Theme.Material.Light">
         <!-- Customize your theme here. -->
         <item name="android:colorPrimary">@color/toolbar</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
 </resources>

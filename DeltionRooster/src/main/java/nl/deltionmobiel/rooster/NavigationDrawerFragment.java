@@ -108,11 +108,13 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if (key.equals(Config.SELECTED_GROUP)) {
-                    mDrawerCurrentGroup.setText(sharedPreferences.getString(key, getString(R.string.no_group)));
+                    if(isAdded())
+                        mDrawerCurrentGroup.setText(sharedPreferences.getString(key, getString(R.string.no_group)));
                 }
 
                 if (key.equals(Config.SELECTED_WEEK)) {
-                    mDrawerCurrentWeek.setText("Week " + Session.getWeek());
+                    if(isAdded())
+                        mDrawerCurrentWeek.setText("Week " + Session.getWeek());
                 }
             }
         };

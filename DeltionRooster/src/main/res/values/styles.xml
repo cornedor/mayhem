@@ -3,18 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light">
         <!-- Customize your theme here. -->
-        <item name="android:actionBarStyle">@style/MaterialActionBar</item>
-    </style>
-
-    <style name="CustomActionBarTheme"
-        parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MaterialActionBar</item>
-    </style>
-
-    <!-- ActionBar styles -->
-    <style name="MaterialActionBar"
-        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/actionbar_item_background</item>
     </style>
 
 </resources>

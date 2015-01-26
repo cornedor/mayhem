@@ -173,19 +173,21 @@ public class ScheduleFragment extends Fragment implements DataListener {
     @Override
     public void noDataAvailable() {
         final Activity activity = getActivity();
+        if (pDialog != null && pDialog.isShowing()) pDialog.dismiss();
         if(activity != null) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (pDialog != null && pDialog.isShowing()) pDialog.dismiss();
-                    new AlertDialog.Builder(activity)
-                            .setTitle(getString(R.string.offline_fail_title))
-                            .setMessage(getString(R.string.offline_fail_message))
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .show();
+//                    if (pDialog != null && pDialog.isShowing()) pDialog.dismiss();
+                    if(isAdded())
+                        new AlertDialog.Builder(activity)
+                                .setTitle(getString(R.string.offline_fail_title))
+                                .setMessage(getString(R.string.offline_fail_message))
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .show();
                 }
             });
         }

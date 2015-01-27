@@ -109,6 +109,7 @@ public class MainActivity extends FragmentActivity
                         .commit();
                 break;
             case 4:
+                Session.setCurrentFragment(0); // @TODO: Dirty fix for back button
                 Intent myIntent = new Intent(this, SettingsActivity.class);
                 startActivity(myIntent);
                 break;

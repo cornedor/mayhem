@@ -79,10 +79,6 @@ public class WeekFragment extends Fragment {
 
 //        final ArrayAdapter<TextView> adapter = new ArrayAdapter<TextView>(getActivity(), android.R.layout.simple_list_item_1);
 
-
-        String weekSelected = Config.SELECTED_WEEK;
-        Log.w("","Selected week: "+weekSelected);
-
         DateFormat dfm = new SimpleDateFormat("dd/MM/yyyy");
         Date lastDay = null;
         try {

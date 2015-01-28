@@ -46,9 +46,6 @@ public class WeekAdapter extends ArrayAdapter<WeekObject> {
         weekNumber.setText(week.number);
 
         String weekNow = ""+CurrentWeekNumber();
-        String weekSelected = Config.SELECTED_WEEK;
-
-        Log.w("","Selected config week: "+weekSelected);
 
         if(weekNow.equals(week.number)){
             SpannableString numberContent = new SpannableString(weekNumber.getText().toString());

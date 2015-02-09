@@ -104,16 +104,16 @@ public class ScheduleFragment extends Fragment implements DataListener {
     public void onDataLoaded(Object out) {
         final JSONArray json = (JSONArray) out;
 
-        final String[] days = {
-                getText(R.string.monday).toString(),
-                getText(R.string.tuesday).toString(),
-                getText(R.string.wednesday).toString(),
-                getText(R.string.thursday).toString(),
-                getText(R.string.friday).toString()
-        };
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                final String[] days = {
+                    getText(R.string.monday).toString(),
+                    getText(R.string.tuesday).toString(),
+                    getText(R.string.wednesday).toString(),
+                    getText(R.string.thursday).toString(),
+                    getText(R.string.friday).toString()
+                };
                 try {
                     for (int i = 0; i < json.length(); i++) {
                         Card card = new Card(v.getContext(), null);

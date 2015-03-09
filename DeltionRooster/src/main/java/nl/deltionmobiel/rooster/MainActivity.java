@@ -61,7 +61,7 @@ public class MainActivity extends FragmentActivity
         fragmentSwitcher(position);
     }
     
-    private switchToScheduleFragment() {
+    private void switchToScheduleFragment() {
         String selectedGroup = Session.getGroup(this);
         // no group selected, show de default selector
         if (selectedGroup.equals("") || selectedGroup.equals(getString(R.string.no_group))) {

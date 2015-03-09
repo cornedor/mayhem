@@ -60,6 +60,21 @@ public class MainActivity extends FragmentActivity
     public void onNavigationDrawerItemSelected(int position) {
         fragmentSwitcher(position);
     }
+    
+    private switchToScheduleFragment() {
+        String selectedGroup = Session.getGroup(this);
+        // no group selected, show de default selector
+        if (selectedGroup.equals("") || selectedGroup.equals(getString(R.string.no_group))) {
+            Session.selectDefault(true);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, new DepartmentsFragment())
+                    .commit();
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, ScheduleFragment.newInstance())
+                    .commit();
+        }
+    }
 
     /**
      * Change the fragment in the MainView, position 0 will show the ScheduleFragment and if there
@@ -78,19 +93,8 @@ public class MainActivity extends FragmentActivity
 
         switch (position) {
             case 0:
-                String selectedGroup = Session.getGroup(this);
-                if (selectedGroup.equals("") || selectedGroup.equals(getString(R.string.no_group))) {
-                    Session.selectDefault(true);
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, new DepartmentsFragment())
-                            .commit();
-                    break;
-                } else {
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, ScheduleFragment.newInstance())
-                            .commit();
-                    break;
-                }
+                switchToScheduleFragment();
+                break;
             case 1:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new YearFragment())
@@ -104,9 +108,7 @@ public class MainActivity extends FragmentActivity
             case 3:
                 Session.setWeek(null);
                 Session.setYear(null);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, ScheduleFragment.newInstance())
-                        .commit();
+                switchToScheduleFragment();
                 break;
             case 4:
                 Session.setCurrentFragment(0); // @TODO: Dirty fix for back button

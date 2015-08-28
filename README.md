@@ -1,3 +1,9 @@
+Update
+======
+As of school year 2015/2016 the Deltion website has been updated.
+This project is no longer working and not beeing maintained.
+
+
 mayhem
 ======
 
